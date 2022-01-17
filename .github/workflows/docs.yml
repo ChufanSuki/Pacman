@@ -3,12 +3,13 @@ name: docs
 # execute this workflow automatically when a we push to master
 on:
   push:
- 
+
 jobs:
-  docs:
+  build:
+    name: Push Sphinx Pages
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: ammaraskar/sphinx-action@master
+    - uses: seanzhengw/sphinx-pages@master
       with:
-        docs-folder: "docs/"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        create_readme: true
