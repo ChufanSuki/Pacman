@@ -19,21 +19,21 @@ class TestAttrHaveSameNameAsInitParams:
 
     def test_simple_attr_only(self):
         a = A('foo', 'bar')
-        r = a.__simple_repr()
+        r = a._simple_repr()
 
         assert r['attr1'] == 'foo'
         assert r['attr2'] == 'bar'
 
     def test_simple_attr_only_with_bool(self):
         a = A(False, True)
-        r = a.__simple_repr()
+        r = a._simple_repr()
 
         assert r['attr1'] is False
         assert r['attr2'] is True
 
     def test_simple_attr_only_with_none(self):
         a = A(False, None)
-        r = a.__simple_repr()
+        r = a._simple_repr()
 
         assert r['attr1'] is False
         assert r['attr2'] is None
