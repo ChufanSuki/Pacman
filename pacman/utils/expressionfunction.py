@@ -1,4 +1,5 @@
 import ast
+import importlib.util
 import sys
 from collections.abc import Callable
 from typing import Tuple, Set, Any, List
@@ -56,27 +57,27 @@ class ExpressionFunction(Callable, SimpleRepr):
         except SyntaxError:
             raise SyntaxError(f"Syntax error in string expression: '{self._expression}'")
 
-            # Make the module that contains the constraint definition available to exec:
-            g = dict(globals())
-            if source_file is not None:
-                # import the module that contains the constraint definition
-                spec = importlib.util.spec_from_file_location("source", source_file)
-                module = importlib.util.module_from_spec(spec)
-                spec.loader.exec_module(module)
-                g["source"] = module
-            # And execute on compiled function definition, to get the function object:
-            try:
-                local = {}
-                exec(f_compiled, g, local)
-                self.exp_func = local["f"]
-            except SyntaxError:
-                raise SyntaxError(f"Syntax error in multi-line string expression {f_def}'")
+        # Make the module that contains the constraint definition available to exec:
+        g = dict(globals())
+        if source_file is not None:
+            # import the module that contains the constraint definition
+            spec = importlib.util.spec_from_file_location("source", source_file)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            g["source"] = module
+        # And execute on compiled function definition, to get the function object:
+        try:
+            local = {}
+            exec(f_compiled, g, local)
+            self.exp_func = local["f"]
+        except SyntaxError:
+            raise SyntaxError(f"Syntax error in multi-line string expression {f_def}'")
 
-            for v in fixed_vars:
-                if v not in self.exp_vars:
-                    raise ValueError('Cannot fix variable "{}" which is not '
-                                     'present in the expression ""'
-                                     .format(v, expression))
+        for v in fixed_vars:
+            if v not in self.exp_vars:
+                raise ValueError('Cannot fix variable "{}" which is not '
+                                 'present in the expression ""'
+                                 .format(v, expression))
 
     @property
     def expression(self):
