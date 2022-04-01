@@ -44,16 +44,15 @@ def from_repr(r):
         # instance of really a dict!
         if '__qualname__' in r and '__module__' in r:
 
-
             if r['__qualname__'] == "tuple":
                 # special case for tuple ( not named)
-                values = sorted( [(int(i), v) for i, v in r.items()
-                                  if i not in ['__qualname__', '__module__']] )
-                return tuple([ from_repr(v) for _, v in values])
+                values = sorted([(int(i), v) for i, v in r.items()
+                                 if i not in ['__qualname__', '__module__']])
+                return tuple([from_repr(v) for _, v in values])
             module = importlib.import_module(r['__module__'])
             qual = getattr(module, r['__qualname__'])
 
-            if type(qual) == types.FunctionType:
+            if isinstance(qual, types.FunctionType):
                 args = {k: from_repr(v) for k, v in r.items()
                         if k not in ['__qualname__', '__module__', '__type__']}
                 M = qual(r['__type__'], args)
@@ -130,6 +129,7 @@ class SimpleRepr(object):
 
 
     """
+
     def _simple_repr(self):
 
         # Full name = module + qualifiedname (for inner classes)

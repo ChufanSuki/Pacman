@@ -4,25 +4,23 @@ import pytest
 
 from pacman.utils.expressionfunction import ExpressionFunction
 
+
 class TestExpressionFunction:
     def test_callable(self):
         f = ExpressionFunction('a / b ')
         assert f(a=1, b=2) == 0.5
 
     def test_simple_math_expression(self):
-
         f = ExpressionFunction('a + b ')
         assert f.expression == 'a + b '
 
     def test_oneline_python_expression(self):
-
         f = ExpressionFunction(' "ko" if a+b > 10 else a+b')
 
         assert f(a=2, b=3) == 5
         assert f(a=4, b=8) == "ko"
 
     def test_complex_oneline_exp(self):
-
         # This kind of expression is exactly what we use when modelling an
         # hard constraint:
         f = ExpressionFunction('0 if round(0.2*a + 0.5*b + 0.8*c) == M '
@@ -33,7 +31,6 @@ class TestExpressionFunction:
         assert f(a=5, b=2, c=3, M=4) == 0
 
     def test_variable_names(self):
-
         f = ExpressionFunction('a + b ')
         names = f.variable_names
 
@@ -42,7 +39,6 @@ class TestExpressionFunction:
         assert 'b' in names
 
     def test_should_work_with_partial(self):
-
         f = ExpressionFunction('a * (b -c)')
 
         fp = partial(f, c=2)
@@ -53,7 +49,6 @@ class TestExpressionFunction:
         assert f(a=3, b=5, c=1) == fp(b=5)
 
     def test_non_numeric_variable(self):
-
         f = ExpressionFunction("1 if a == 'A' else 2")
         assert f(a='A') == 1
         assert f(a='B') == 2

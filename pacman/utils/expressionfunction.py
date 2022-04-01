@@ -4,7 +4,7 @@ import sys
 from collections.abc import Callable
 from typing import Tuple, Set, Any, List
 
-from pacman.utils.simple_repr import SimpleRepr
+from pacman.utils.simple_repr import SimpleRepr, from_repr, simple_repr
 
 
 class ExpressionFunction(Callable, SimpleRepr):
@@ -76,7 +76,7 @@ class ExpressionFunction(Callable, SimpleRepr):
         for v in fixed_vars:
             if v not in self.exp_vars:
                 raise ValueError('Cannot fix variable "{}" which is not '
-                                 'present in the expression ""'
+                                 'present in the expression "{}"'
                                  .format(v, expression))
 
     @property
@@ -169,20 +169,20 @@ class VarCounterVisitor(ast.NodeVisitor):
         # We must keep track of importer name in order to avoid considering as variable
         # names:
         elif isinstance(node, ast.Import):
-            self.imported.update([ n.name for n in node.names])
+            self.imported.update([n.name for n in node.names])
         elif isinstance(node, ast.ImportFrom):
-            self.imported.update([ n.name for n in node.names])
+            self.imported.update([n.name for n in node.names])
 
         self.generic_visit(node)
 
     def get_vars(self):
-        names = (self.loaded - self.stored) -self.imported
+        names = (self.loaded - self.stored) - self.imported
         # We want to allow using builtin function like abs, round, etc.
         # We must filter them out from the list of variables.
         # We also filter out any name that starts with 'source', as this is the syntax
         # used in yaml when referring to constraints defined in separate python files.
         builtins = dir(sys.modules["builtins"])
-        return { n for n in names if not n.startswith("source") and n not in builtins}
+        return {n for n in names if not n.startswith("source") and n not in builtins}
 
 
 def _analyse_ast(str_code: str) -> Tuple[bool, Set[str]]:
