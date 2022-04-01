@@ -1,10 +1,10 @@
 import pytest
 
 from pacman.utils.various import func_args
-from pacman.utils.expressionfunction import ExpressionFunction
+# from pacman.utils.expressionfunction import ExpressionFunction
 
 
-class FuncArgsTests:
+class TestFuncArgs:
 
     def test_one_arg(self):
         def f(a):
