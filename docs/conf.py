@@ -19,7 +19,7 @@
 
 # -- Project information -----------------------------------------------------
 
-import imitation  # pytype: disable=import-error
+import pacman  # pytype: disable=import-error
 
 project = "pacman"
 copyright = "2022-2024 Chufan Chen"  # noqa: A001
