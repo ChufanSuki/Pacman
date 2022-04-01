@@ -1,7 +1,5 @@
+from pacman.utils.expressionfunction import ExpressionFunction
 from pacman.utils.various import func_args
-
-
-# from pacman.utils.expressionfunction import ExpressionFunction
 
 
 class TestFuncArgs:
@@ -56,11 +54,11 @@ class TestFuncArgs:
 
         assert var_list == ['a', 'b']
 
-    # def test_expression_function(self):
-    #     f = ExpressionFunction('a + b + v1')
-    #     var_list = func_args(f)
-    #
-    #     assert 'a' in var_list
-    #     assert 'b' in var_list
-    #     assert 'v1' in var_list
-    #     assert len(var_list), 3
+    def test_expression_function(self):
+        f = ExpressionFunction('a + b + v1')
+        var_list = func_args(f)
+
+        assert 'a' in var_list
+        assert 'b' in var_list
+        assert 'v1' in var_list
+        assert len(var_list), 3

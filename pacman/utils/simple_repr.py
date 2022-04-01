@@ -77,8 +77,8 @@ def simple_repr(o):
     """
     Build a simple representation for object o.
 
-    o must already be a simple type (boolean, number, string of list/dict of
-    these types) of must implement _simple_repr().
+    o eithor already be a simple type (boolean, number, string of list/dict of
+    these types) or implement _simple_repr().
 
     :param o: an object
     :return: a simple representation for this object
