@@ -191,24 +191,24 @@ class TestAttrHaveSameNameAsInitParams:
         n = Named(1, 2)
         r = simple_repr(n)
 
-        self.assertEqual(r['foo'], 1)
-        self.assertEqual(r['bar'], 2)
+        assert r['foo'] == 1
+        assert r['bar'] == 2
 
         obtained = from_repr(r)
 
-        self.assertEqual(obtained, n)
+        assert obtained == n
 
     def test_namedtuple_complex(self):
         # Named = namedtuple('Named', ['foo', 'bar'])
         n = Named({'a': 1, 'b': 2}, [1, 2, 3, 5])
         r = simple_repr(n)
 
-        self.assertEqual(r['foo'], {'a': 1, 'b': 2})
-        self.assertEqual(r['bar'], [1, 2, 3, 5])
+        assert r['foo'], {'a': 1, 'b': 2}
+        assert r['bar'] == [1, 2, 3, 5]
 
         obtained = from_repr(r)
 
-        self.assertEqual(obtained, n)
+        assert obtained == n
 
 
 Named = namedtuple('Named', ['foo', 'bar'])
