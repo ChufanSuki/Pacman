@@ -1,4 +1,4 @@
-imitation package
+pacman package
 =================
 
 Subpackages
