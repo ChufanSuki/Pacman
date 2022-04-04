@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pacman.utils package &mdash; pacman 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pacman.dcop package" href="pacman.dcop.html" />
+    <link rel="prev" title="imitation package" href="pacman.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> pacman
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guide/install.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="pacman.html">imitation package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="pacman.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">pacman.utils package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pacman-utils-graphs-module">pacman.utils.graphs module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-pacman.utils.simple_repr">pacman.utils.simple_repr module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-pacman.utils.expressionfunction">pacman.utils.expressionfunction module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-pacman.utils.various">pacman.utils.various module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-pacman.utils">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pacman.dcop.html">pacman.dcop package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pacman.html#module-pacman">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pacman</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="pacman.html">imitation package</a> &raquo;</li>
+      <li>pacman.utils package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/pacman.utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pacman-utils-package">
+<h1>pacman.utils package<a class="headerlink" href="#pacman-utils-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="pacman-utils-graphs-module">
+<h2>pacman.utils.graphs module<a class="headerlink" href="#pacman-utils-graphs-module" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-pacman.utils.simple_repr">
+<span id="pacman-utils-simple-repr-module"></span><h2>pacman.utils.simple_repr module<a class="headerlink" href="#module-pacman.utils.simple_repr" title="Permalink to this headline"></a></h2>
+<p>Simple Representation module.</p>
+<p>This module provide utility methods and mixin to convert python objects
+to and from a so called ‘simple representation’.</p>
+<p>A simple representation is composed only of simple python objects:
+* booleans
+* string
+* numbers
+* lists of simple python objects
+* dicts of simple python objects
+* namedtuple</p>
+<p>When using namedtuple, they must obey the two following rules
+* be defined at module level (not in class /method)
+* the name of the class variable must match the name of the class. for</p>
+<blockquote>
+<div><p>example:</p>
+<blockquote>
+<div><p>Named = namedtuple(‘Named’, [‘foo’, ‘bar’])</p>
+</div></blockquote>
+</div></blockquote>
+<dl class="py class">
+<dt class="sig sig-object py" id="pacman.utils.simple_repr.SimpleRepr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.utils.simple_repr.</span></span><span class="sig-name descname"><span class="pre">SimpleRepr</span></span><a class="reference internal" href="../_modules/pacman/utils/simple_repr.html#SimpleRepr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.utils.simple_repr.SimpleRepr" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Mixin to transform python objects into a representation composed only of
+simple python types.
+The idea is that the simple repr can be directly converted into json or
+yaml. The simple representation can be obtained by calling
+<cite>simple_repr(o)</cite>.</p>
+<p>The class using this mixin must satisfy the following constraints:
+* All constructor’s parameters must be bool, string, number, objects</p>
+<blockquote>
+<div><p>providing a _simple_repr() method (generally by using the the SimpleRep
+mixin) or list or dict of objects of these types.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>the constructor parameter must map to an attribute with the same name
+preceded by ‘_’. If it not the case, the class may declare a
+_repr_mapping attribute which maps the argument name(s) with the
+attribute(s) names.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="pacman.utils.simple_repr.SimpleReprException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.utils.simple_repr.</span></span><span class="sig-name descname"><span class="pre">SimpleReprException</span></span><a class="reference internal" href="../_modules/pacman/utils/simple_repr.html#SimpleReprException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.utils.simple_repr.SimpleReprException" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pacman.utils.simple_repr.from_repr">
+<span class="sig-prename descclassname"><span class="pre">pacman.utils.simple_repr.</span></span><span class="sig-name descname"><span class="pre">from_repr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/utils/simple_repr.html#from_repr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.utils.simple_repr.from_repr" title="Permalink to this definition"></a></dt>
+<dd><p>Build an instance from a simple representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>r</strong> – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pacman.utils.simple_repr.simple_repr">
+<span class="sig-prename descclassname"><span class="pre">pacman.utils.simple_repr.</span></span><span class="sig-name descname"><span class="pre">simple_repr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/utils/simple_repr.html#simple_repr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.utils.simple_repr.simple_repr" title="Permalink to this definition"></a></dt>
+<dd><p>Build a simple representation for object o.</p>
+<p>o eithor already be a simple type (boolean, number, string of list/dict of
+these types) or implement _simple_repr().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>o</strong> – an object</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a simple representation for this object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-pacman.utils.expressionfunction">
+<span id="pacman-utils-expressionfunction-module"></span><h2>pacman.utils.expressionfunction module<a class="headerlink" href="#module-pacman.utils.expressionfunction" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pacman.utils.expressionfunction.ExpressionFunction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.utils.expressionfunction.</span></span><span class="sig-name descname"><span class="pre">ExpressionFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fixed_vars</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/utils/expressionfunction.html#ExpressionFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.utils.expressionfunction.ExpressionFunction" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Callable</span></code>, <a class="reference internal" href="#pacman.utils.simple_repr.SimpleRepr" title="pacman.utils.simple_repr.SimpleRepr"><code class="xref py py-class docutils literal notranslate"><span class="pre">pacman.utils.simple_repr.SimpleRepr</span></code></a></p>
+<p>Callable object representing a function from a python string.
+expression.</p>
+<p>Example:
+f = ExpressionFunction(‘a + b’)
+f.variable_names  -&gt; [‘a’, ‘b’]
+f(a=1, b=3)       -&gt; 4
+f.expression      -&gt; ‘a + b’</p>
+<p>Note: this callable only works with keyword arguments.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacman.utils.expressionfunction.ExpressionFunction.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fixed_vars</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/utils/expressionfunction.html#ExpressionFunction.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.utils.expressionfunction.ExpressionFunction.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Create a callable representing the expression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>expression</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – a valid python expression (any builtin python</p>
+</dd>
+</dl>
+<p>function can be used, e.g. abs, round, etc.).
+for example “abs(a1 - b)”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fixed_vars</strong> – extra keyword parameters will be interpreted as</p>
+</dd>
+</dl>
+<p>fixed parameter for the expression and the produced callable will
+represent a partial evaluation if the expression with these
+parameter already fixed. If the name of these keyword parameter do
+not match any of the variables found in the expression,
+a <cite>ValueError</cite> is raised.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pacman.utils.expressionfunction.ExpressionFunction.expression">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">expression</span></span><a class="headerlink" href="#pacman.utils.expressionfunction.ExpressionFunction.expression" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacman.utils.expressionfunction.ExpressionFunction.partial">
+<span class="sig-name descname"><span class="pre">partial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/utils/expressionfunction.html#ExpressionFunction.partial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.utils.expressionfunction.ExpressionFunction.partial" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pacman.utils.expressionfunction.ExpressionFunction.variable_names">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">variable_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pacman.utils.expressionfunction.ExpressionFunction.variable_names" title="Permalink to this definition"></a></dt>
+<dd><p>return: a set of variable names that must be set when calling f</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacman.utils.expressionfunction.VarCounterVisitor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.utils.expressionfunction.</span></span><span class="sig-name descname"><span class="pre">VarCounterVisitor</span></span><a class="reference internal" href="../_modules/pacman/utils/expressionfunction.html#VarCounterVisitor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.utils.expressionfunction.VarCounterVisitor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ast.NodeVisitor</span></code></p>
+<p>A simple visitor to count variables in an AST tree.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacman.utils.expressionfunction.VarCounterVisitor.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/utils/expressionfunction.html#VarCounterVisitor.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.utils.expressionfunction.VarCounterVisitor.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacman.utils.expressionfunction.VarCounterVisitor.get_vars">
+<span class="sig-name descname"><span class="pre">get_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/utils/expressionfunction.html#VarCounterVisitor.get_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.utils.expressionfunction.VarCounterVisitor.get_vars" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacman.utils.expressionfunction.VarCounterVisitor.visit">
+<span class="sig-name descname"><span class="pre">visit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/utils/expressionfunction.html#VarCounterVisitor.visit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.utils.expressionfunction.VarCounterVisitor.visit" title="Permalink to this definition"></a></dt>
+<dd><p>Visit a node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-pacman.utils.various">
+<span id="pacman-utils-various-module"></span><h2>pacman.utils.various module<a class="headerlink" href="#module-pacman.utils.various" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="pacman.utils.various.func_args">
+<span class="sig-prename descclassname"><span class="pre">pacman.utils.various.</span></span><span class="sig-name descname"><span class="pre">func_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/utils/various.html#func_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.utils.various.func_args" title="Permalink to this definition"></a></dt>
+<dd><p>Get the list of arguments for a function.
+This also works for function produced with functools.partial, as long as
+you only use keywords arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>f</strong> – a function</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the list of argument’s name for the function f</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-pacman.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pacman.utils" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pacman.html" class="btn btn-neutral float-left" title="imitation package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pacman.dcop.html" class="btn btn-neutral float-right" title="pacman.dcop package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024 Chufan Chen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
