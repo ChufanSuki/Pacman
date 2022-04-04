@@ -1,4 +1,5 @@
-from typing import Sized, Iterable, Any, Union, Tuple, Dict
+import itertools
+from typing import Any, Dict, Iterable, Sized, Tuple, Union
 
 from pacman.utils.simple_repr import SimpleRepr
 
@@ -14,7 +15,7 @@ class Domain(Sized, SimpleRepr, Iterable[Any]):
     A domain object can be used like a list of value as it support basic
     list-like operations : 'in', 'len', iterable...
 
-    >>> domain = Domain("binary", "binary", [0, 1])
+    >>> binary_domain = Domain("binary", "binary", [0, 1])
     """
 
     def __init__(self, name: str, domain_type: str, values: Iterable):
@@ -26,6 +27,7 @@ class Domain(Sized, SimpleRepr, Iterable[Any]):
         """
         self._name = name
         self._domain_type = domain_type
+        # we don't want to mutate the values, so a tuple is used for faster and safer code
         self._values = tuple(values)
 
     @property
@@ -62,10 +64,10 @@ class Domain(Sized, SimpleRepr, Iterable[Any]):
         return False
 
     def __str__(self):
-        return "VariableDomain({})".format(self.name)
+        return f"VariableDomain({self.name})"
 
     def __repr__(self):
-        return "VariableDomain({}, {}, {})".format(self.name, self.type, self.values)
+        return f"VariableDomain({self.name}, {self.type}, {self.values})"
 
     def __hash__(self):
         return hash((self._name, self._domain_type, self._values))
@@ -83,6 +85,10 @@ class Domain(Sized, SimpleRepr, Iterable[Any]):
         -------
         the index of this value in the domain.
 
+        Error
+        -----
+        If the value is not in the domain, an ValueError is raised.
+
         Examples
         --------
 
@@ -91,7 +97,33 @@ class Domain(Sized, SimpleRepr, Iterable[Any]):
         1
 
         """
-        raise NotImplementedError()
+        for i, v in enumerate(self._values):
+            if v == val:
+                return i
+        raise ValueError(f"{val} is not in the domain {self._name}")
+
+    def to_str(self, val: Any) -> str:
+        """
+        Convert a value to a string representation
+
+        Parameters
+        ----------
+        val:
+            a value in the domain
+
+        Returns
+        -------
+        a string representation of the value
+
+        Examples
+        --------
+
+        >>> d = Domain('d', 'd', [1, 2, 3])
+        >>> d.to_str(2)
+        '2'
+
+        """
+        return str(val)
 
     def to_domain_value(self, val: str):
         """
@@ -118,7 +150,11 @@ class Domain(Sized, SimpleRepr, Iterable[Any]):
         (1, 2)
 
         """
-        raise NotImplementedError()
+        for i, v in enumerate(self._values):
+            if str(v) == val:
+                return i, v
+        raise ValueError(f"{val} is not in the domain {self._name}")
+
 
 class Variable(SimpleRepr):
     """A DCOP variable.
@@ -141,7 +177,10 @@ class Variable(SimpleRepr):
         The initial value assigned to the variable.
 
     """
-    def __init__(self, name: str, domain: Union[Domain, Iterable[Any]], initial_value=None):
+
+    def __init__(
+        self, name: str, domain: Union[Domain, Iterable[Any]], initial_value=None
+    ):
         self._name = name
         # Sanity Check for domain and initial_value
         self._domain = domain
@@ -160,10 +199,10 @@ class Variable(SimpleRepr):
         return self._initial_value
 
     def __str__(self):
-        return "Variable({})".format(self.name)
+        return f"Variable({self.name})"
 
     def __repr__(self):
-        return "Variable({}, {}, {})".format(self.name, self.domain, self.initial_value)
+        return f"Variable({self.name}, {self.domain}, {self.initial_value})"
 
     def __hash__(self):
         return hash((self.name, self.domain, self.initial_value))
@@ -171,13 +210,18 @@ class Variable(SimpleRepr):
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, Variable):
             return False
-        if self.name == o.name and self.domain == o.domain and self.initial_value == o.initial_value:
+        if (
+            self.name == o.name
+            and self.domain == o.domain
+            and self.initial_value == o.initial_value
+        ):
             return True
 
         return False
 
     def clone(self):
         return Variable(self.name, self.domain, self.initial_value)
+
 
 def create_variables(
     name_prefix: str,
@@ -192,7 +236,7 @@ def create_variables(
     name_prefix: str
         Used as prefix when naming the variables.
     indexes: non-tuple iterable of indexes or tuple of iterables of indexes
-        If it not a tuple, a variable is be created for each of
+        If it not a tuple, a variable is created for each of
         the index. The index might be a range(see examples).
          If it is a tuple of iterable, a variable is created
         for every possible combinations of values from `indexes`.
@@ -235,7 +279,19 @@ def create_variables(
     >>> assert 'R' in vrs[('x2', 'a3')].domain
 
     """
-    raise NotImplementedError()
-
-
-
+    variables = {}
+    if isinstance(indexes, tuple):
+        for i in itertools.product(*indexes):
+            name = name_prefix + separator.join(i)
+            variables[i] = Variable(name, domain)
+    elif isinstance(indexes, range):
+        for i in indexes:
+            name = name_prefix + str(i)
+            variables[name] = Variable(name, domain)
+    elif isinstance(indexes, Iterable):
+        for i in indexes:
+            name = name_prefix + str(i)
+            variables[name] = Variable(name, domain)
+    else:
+        raise TypeError("indexes must be an iterable or range or tuple of iterables")
+    return variables

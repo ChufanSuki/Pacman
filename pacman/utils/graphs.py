@@ -1,7 +1,9 @@
 import random
+
 import networkx as nx
 
-class Node(object):
+
+class Node:
     """
     A generic Node for a bipartite graph
     """
@@ -24,10 +26,15 @@ class Node(object):
 
     def add_neighbors(self, node, directed=False):
         if node.type is not None and self.type == node.type:
-            raise ValueError("Cannot add a neighbor of the same type in a bipartie graph: {} - {}".format(node, self))
+            raise ValueError(
+                "Cannot add a neighbor of the same type in a bipartie graph: {} - {}".format(
+                    node, self
+                )
+            )
         self.neighbors.append(node)
         if not directed:
             node.add_neighbors(self, directed=True)
+
 
 def as_bipartite_graph(variables, relations):
     nodes = {}
@@ -45,6 +52,7 @@ def as_bipartite_graph(variables, relations):
                 n.add_neighbors(nodes[v.name])
 
     return nodes.values()
+
 
 def calc_diameter(nodes):
     """
@@ -98,7 +106,7 @@ def as_networkx_graph(variables, relations):
     Parameters
     ----------
     variables: list
-        a list of Variable objets
+        a list of Variable objects
     relations: list
         a list of Relation objects
 
@@ -124,7 +132,7 @@ def as_networkx_bipartite_graph(variables, relations):
     Parameters
     ----------
     variables: list
-        a list of Variable objets
+        a list of Variable objects
     relations: list
         a list of Relation objects
 
@@ -153,7 +161,7 @@ def display_graph(variables, relations):
     ----------
 
     variables: list
-        a list of Variable objets
+        a list of Variable objects
     relations: list
         a list of Relation objects
     """
@@ -180,7 +188,7 @@ def display_bipartite_graph(variables, relations):
     Parameters
     ----------
     variables: list
-        a list of Variable objets
+        a list of Variable objects
     relations: list
         a list of Relation objects
     """
@@ -191,7 +199,7 @@ def display_bipartite_graph(variables, relations):
         import matplotlib.pyplot as plt
 
         pos = nx.drawing.spring_layout(graph)
-        variables = set(n for n, d in graph.nodes(data=True) if d["bipartite"] == 0)
+        variables = {n for n, d in graph.nodes(data=True) if d["bipartite"] == 0}
         factors = set(graph) - variables
         nx.draw_networkx_nodes(
             graph,
@@ -234,7 +242,7 @@ def graph_diameter(variables, relations):
     """
     Compute the graph diameter(s).
     If the graph contains several independent sub graph, returns a list the
-    diamater of each of the subgraphs.
+    diameter of each of the subgraphs.
 
     :param variables:
     :param relations:
@@ -242,7 +250,7 @@ def graph_diameter(variables, relations):
     """
     diams = []
     g = as_networkx_graph(variables, relations)
-    components  = (g.subgraph(c).copy() for c in nx.connected_components(g))
+    components = (g.subgraph(c).copy() for c in nx.connected_components(g))
     for c in components:
         diams.append(nx.diameter(c))
 

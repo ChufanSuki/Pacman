@@ -18,9 +18,10 @@ DOCS_REQUIRE = [
     "sphinxcontrib-napoleon",
 ]
 
+
 def get_readme() -> str:
     """Retrieve content from README."""
-    with open("README.md", "r") as f:
+    with open("README.md") as f:
         return f.read()
 
 
@@ -34,13 +35,13 @@ setup(
     python_requires=">=3.7.0",
     packages=find_packages(),
     install_requires=[
-        'pulp',
-        'numpy',
-        'networkx',
-        'pyyaml',
-        'requests',
-        'websocket-server',
-        'tqdm',
+        "pulp",
+        "numpy",
+        "networkx",
+        "pyyaml",
+        "requests",
+        "websocket-server",
+        "tqdm",
     ],
     tests_require=TESTS_REQUIRE,
     extras_require={

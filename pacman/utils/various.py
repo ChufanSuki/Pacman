@@ -9,10 +9,10 @@ def func_args(f):
     """
     try:
         # get argument list using code object of f
-        return list(f.__code__.co_varnames[:f.__code__.co_argcount])
+        return list(f.__code__.co_varnames[: f.__code__.co_argcount])
     except AttributeError:
 
-        if hasattr(f, 'variable_names'):
+        if hasattr(f, "variable_names"):
             return f.variable_names
 
         original_args = func_args(f.func)

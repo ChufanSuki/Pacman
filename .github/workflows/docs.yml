@@ -1,8 +1,10 @@
 name: docs
  
-# execute this workflow automatically when a we push to master
+# execute this workflow automatically when a push to master
 on:
   push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -16,6 +18,7 @@ jobs:
       uses: sphinx-notes/pages@v2
       with:
         documentation_path: './docs'
+        requirments_path: './doc_requirements.txt'
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:

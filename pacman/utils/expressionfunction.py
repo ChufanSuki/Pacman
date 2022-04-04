@@ -2,7 +2,7 @@ import ast
 import importlib.util
 import sys
 from collections.abc import Callable
-from typing import Tuple, Set, Any, List
+from typing import Any, List, Set, Tuple
 
 from pacman.utils.simple_repr import SimpleRepr, from_repr, simple_repr
 
@@ -48,14 +48,18 @@ class ExpressionFunction(Callable, SimpleRepr):
         if not has_return:
             f_def += f"    return {self._expression}"
         else:
-            self._expression = f"\n{self._expression}" \
-                if not self._expression.startswith("\n") \
+            self._expression = (
+                f"\n{self._expression}"
+                if not self._expression.startswith("\n")
                 else self._expression
+            )
             f_def += self._expression.replace("\n", "\n    ")
         try:
-            f_compiled = compile(f_def, '<string>', 'exec')
+            f_compiled = compile(f_def, "<string>", "exec")
         except SyntaxError:
-            raise SyntaxError(f"Syntax error in string expression: '{self._expression}'")
+            raise SyntaxError(
+                f"Syntax error in string expression: '{self._expression}'"
+            )
 
         # Make the module that contains the constraint definition available to exec:
         g = dict(globals())
@@ -75,9 +79,10 @@ class ExpressionFunction(Callable, SimpleRepr):
 
         for v in fixed_vars:
             if v not in self.exp_vars:
-                raise ValueError('Cannot fix variable "{}" which is not '
-                                 'present in the expression "{}"'
-                                 .format(v, expression))
+                raise ValueError(
+                    'Cannot fix variable "{}" which is not '
+                    'present in the expression "{}"'.format(v, expression)
+                )
 
     @property
     def expression(self):
@@ -107,11 +112,9 @@ class ExpressionFunction(Callable, SimpleRepr):
         unexpected = received - expected
         missing = expected - received
         if missing:
-            raise TypeError(
-                "Missing named argument(s) " + str(missing))
+            raise TypeError("Missing named argument(s) " + str(missing))
         if unexpected:
-            raise TypeError(
-                "Unexpected argument(s) " + str(unexpected))
+            raise TypeError("Unexpected argument(s) " + str(unexpected))
 
         res = self.exp_func(**l)
         return res
@@ -119,38 +122,42 @@ class ExpressionFunction(Callable, SimpleRepr):
     def __eq__(self, other):
         if type(self) != type(other):
             return False
-        if self._expression == other._expression and \
-                self._source_file == other._source_file:
+        if (
+            self._expression == other._expression
+            and self._source_file == other._source_file
+        ):
             return True
         return False
 
     def __str__(self):
-        return 'ExpressionFunction({})'.format(self._expression)
+        return f"ExpressionFunction({self._expression})"
 
     def __repr__(self):
-        return 'ExpressionFunction({}, {})'.format(self._expression,
-                                                   self.exp_vars)
+        return f"ExpressionFunction({self._expression}, {self.exp_vars})"
 
     def __hash__(self):
         return hash((self._expression, tuple(self._fixed_vars.items())))
 
     def _simple_repr(self):
         r = super()._simple_repr()
-        r['fixed_vars'] = simple_repr(self._fixed_vars)
+        r["fixed_vars"] = simple_repr(self._fixed_vars)
         return r
 
     @classmethod
     def _from_repr(cls, r):
-        fixed_vars = r['fixed_vars']
-        del r['fixed_vars']
-        args = {k: from_repr(v) for k, v in r.items()
-                if k not in ['__qualname__', '__module__']}
+        fixed_vars = r["fixed_vars"]
+        del r["fixed_vars"]
+        args = {
+            k: from_repr(v)
+            for k, v in r.items()
+            if k not in ["__qualname__", "__module__"]
+        }
         exp_fct = cls(**args, **fixed_vars)
         return exp_fct
 
 
 class VarCounterVisitor(ast.NodeVisitor):
-    """ A simple visitor to count variables in an AST tree."""
+    """A simple visitor to count variables in an AST tree."""
 
     def __init__(self):
         self.loaded = set()

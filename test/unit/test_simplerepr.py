@@ -2,7 +2,12 @@ from collections import namedtuple
 
 import pytest
 
-from pacman.utils.simple_repr import SimpleRepr, from_repr, SimpleReprException, simple_repr
+from pacman.utils.simple_repr import (
+    SimpleRepr,
+    SimpleReprException,
+    from_repr,
+    simple_repr,
+)
 
 
 class A(SimpleRepr):
@@ -22,44 +27,44 @@ class TestAttrHaveSameNameAsInitParams:
     """
 
     def test_simple_attr_only(self):
-        a = A('foo', 'bar')
+        a = A("foo", "bar")
         r = a._simple_repr()
 
-        assert r['attr1'] == 'foo'
-        assert r['attr2'] == 'bar'
+        assert r["attr1"] == "foo"
+        assert r["attr2"] == "bar"
 
     def test_simple_attr_only_with_bool(self):
         a = A(False, True)
         r = a._simple_repr()
 
-        assert r['attr1'] is False
-        assert r['attr2'] is True
+        assert r["attr1"] is False
+        assert r["attr2"] is True
 
     def test_simple_attr_only_with_none(self):
         a = A(False, None)
         r = a._simple_repr()
 
-        assert r['attr1'] is False
-        assert r['attr2'] is None
+        assert r["attr1"] is False
+        assert r["attr2"] is None
 
     def test_from_repr_simple_attr_only(self):
-        a = A('foo', 'bar')
+        a = A("foo", "bar")
         r = a._simple_repr()
 
         b = from_repr(r)
         assert isinstance(b, A) is True
-        assert b._attr1 == 'foo'
-        assert b._attr2 == 'bar'
+        assert b._attr1 == "foo"
+        assert b._attr2 == "bar"
 
     def test_list_attr(self):
-        a = A('foo', [1, 2, 3])
+        a = A("foo", [1, 2, 3])
         r = a._simple_repr()
 
-        assert r['attr1'] == 'foo'
-        assert r['attr2'] == [1, 2, 3]
+        assert r["attr1"] == "foo"
+        assert r["attr2"] == [1, 2, 3]
 
     def test_from_repr_list_attr(self):
-        a = A('foo', [1, 2, 3])
+        a = A("foo", [1, 2, 3])
         r = a._simple_repr()
 
         b = from_repr(r)
@@ -67,14 +72,14 @@ class TestAttrHaveSameNameAsInitParams:
         assert b._attr2 == a._attr2
 
     def test_dict_attr(self):
-        a = A('foo', {'a': 1, 'b': 2})
+        a = A("foo", {"a": 1, "b": 2})
         r = a._simple_repr()
 
-        assert r['attr1'] == 'foo'
-        assert r['attr2'] == {'a': 1, 'b': 2}
+        assert r["attr1"] == "foo"
+        assert r["attr2"] == {"a": 1, "b": 2}
 
     def test_from_repr_dist_attr(self):
-        a = A('foo', {'a': 1, 'b': 2})
+        a = A("foo", {"a": 1, "b": 2})
         r = a._simple_repr()
 
         b = from_repr(r)
@@ -82,106 +87,103 @@ class TestAttrHaveSameNameAsInitParams:
         assert b._attr2 == a._attr2
 
     def test_object_attr(self):
-        a2 = A('foo2', 'bar2')
-        a = A('foo', a2)
+        a2 = A("foo2", "bar2")
+        a = A("foo", a2)
         r = a._simple_repr()
 
-        assert r['attr1'] == 'foo'
-        assert r['attr2'] == a2._simple_repr()
-        assert r['attr2']['attr1'] == 'foo2'
+        assert r["attr1"] == "foo"
+        assert r["attr2"] == a2._simple_repr()
+        assert r["attr2"]["attr1"] == "foo2"
 
     def test_from_repr_object_attr(self):
-        a2 = A('foo2', 'bar2')
-        a = A('foo', a2)
+        a2 = A("foo2", "bar2")
+        a = A("foo", a2)
         r = a._simple_repr()
 
         b = from_repr(r)
         assert isinstance(b, A) is True
-        assert b._attr1 == 'foo'
-        assert b._attr2._attr1 == 'foo2'
-        assert b._attr2._attr2 == 'bar2'
+        assert b._attr1 == "foo"
+        assert b._attr2._attr1 == "foo2"
+        assert b._attr2._attr2 == "bar2"
 
     def test_list_of_objects(self):
-        a2 = A('foo2', 'bar2')
-        a3 = A('foo3', 'bar3')
-        a = A('foo', [a2, a3])
+        a2 = A("foo2", "bar2")
+        a3 = A("foo3", "bar3")
+        a = A("foo", [a2, a3])
         r = a._simple_repr()
 
-        assert r['attr1'] == 'foo'
-        assert isinstance(r['attr2'], list) is True
-        assert r['attr2'][0] == a2._simple_repr()
-        assert r['attr2'][1]['attr1'] == 'foo3'
+        assert r["attr1"] == "foo"
+        assert isinstance(r["attr2"], list) is True
+        assert r["attr2"][0] == a2._simple_repr()
+        assert r["attr2"][1]["attr1"] == "foo3"
 
     def test_from_repr_list_of_objects(self):
-        a2 = A('foo2', 'bar2')
-        a3 = A('foo3', 'bar3')
-        a = A('foo', [a2, a3])
+        a2 = A("foo2", "bar2")
+        a3 = A("foo3", "bar3")
+        a = A("foo", [a2, a3])
         r = a._simple_repr()
 
         b = from_repr(r)
         assert isinstance(b, A) is True
-        assert b._attr1 == 'foo'
+        assert b._attr1 == "foo"
         assert isinstance(b._attr2, list) is True
-        assert b._attr2[0]._attr1 == 'foo2'
-        assert b._attr2[1]._attr2 == 'bar3'
+        assert b._attr2[0]._attr1 == "foo2"
+        assert b._attr2[1]._attr2 == "bar3"
 
     def test_dict_of_objects(self):
-        a2 = A('foo2', 'bar2')
-        a3 = A('foo3', 'bar3')
-        a = A('foo', {'a': a2, 'b': a3})
+        a2 = A("foo2", "bar2")
+        a3 = A("foo3", "bar3")
+        a = A("foo", {"a": a2, "b": a3})
         r = a._simple_repr()
-        assert r['attr1'] == 'foo'
-        assert isinstance(r['attr2'], dict) is True
-        assert r['attr2']['a'] == a2._simple_repr()
-        assert r['attr2']['b']['attr1'] == 'foo3'
+        assert r["attr1"] == "foo"
+        assert isinstance(r["attr2"], dict) is True
+        assert r["attr2"]["a"] == a2._simple_repr()
+        assert r["attr2"]["b"]["attr1"] == "foo3"
 
     def test_composite_list_dict(self):
-        a2 = A('foo2', 'bar2')
-        a = A('foo', ['a', {'k1': 1, 'k2': a2}, 3])
+        a2 = A("foo2", "bar2")
+        a = A("foo", ["a", {"k1": 1, "k2": a2}, 3])
         r = a._simple_repr()
-        assert r['attr1'] == 'foo'
-        assert isinstance(r['attr2'], list) is True
-        assert isinstance(r['attr2'][1], dict) is True
-        assert r['attr2'][1]['k2']['attr2'] == 'bar2'
+        assert r["attr1"] == "foo"
+        assert isinstance(r["attr2"], list) is True
+        assert isinstance(r["attr2"][1], dict) is True
+        assert r["attr2"][1]["k2"]["attr2"] == "bar2"
 
     def test_raise_when_object_does_not_use_mixin(self):
-        class NoMixin(object):
-
+        class NoMixin:
             def __init__(self, a1):
                 self.foo = a1
 
-        o = NoMixin('bar')
+        o = NoMixin("bar")
         with pytest.raises(SimpleReprException):
             simple_repr(o)
 
     def test_raise_when_no_corresponding_attribute(self):
         class NoCorrespondingAttr(SimpleRepr):
-
             def __init__(self, a1):
                 self.foo = a1
 
-        o = NoCorrespondingAttr('bar')
+        o = NoCorrespondingAttr("bar")
         with pytest.raises(SimpleReprException):
             simple_repr(o)
 
     def test_mapping_for_corresponding_attribute(self):
         class MappingAttr(SimpleRepr):
-
             def __init__(self, a1):
-                self._repr_mapping = {'a1': 'foo'}
+                self._repr_mapping = {"a1": "foo"}
                 self.foo = a1
 
-        o = MappingAttr('bar')
+        o = MappingAttr("bar")
         r = simple_repr(o)
-        assert r['a1'] == 'bar'
+        assert r["a1"] == "bar"
 
     def test_tuple_simple_repr(self):
-        a1 = A('foo', ('b', 'a'))
+        a1 = A("foo", ("b", "a"))
         r = simple_repr(a1)
         print(r)
 
     def test_tuple_from_repr(self):
-        a1 = A('foo', ('b', 'a'))
+        a1 = A("foo", ("b", "a"))
         r = simple_repr(a1)
         a2 = from_repr(r)
         print(a2)
@@ -191,8 +193,8 @@ class TestAttrHaveSameNameAsInitParams:
         n = Named(1, 2)
         r = simple_repr(n)
 
-        assert r['foo'] == 1
-        assert r['bar'] == 2
+        assert r["foo"] == 1
+        assert r["bar"] == 2
 
         obtained = from_repr(r)
 
@@ -200,15 +202,15 @@ class TestAttrHaveSameNameAsInitParams:
 
     def test_namedtuple_complex(self):
         # Named = namedtuple('Named', ['foo', 'bar'])
-        n = Named({'a': 1, 'b': 2}, [1, 2, 3, 5])
+        n = Named({"a": 1, "b": 2}, [1, 2, 3, 5])
         r = simple_repr(n)
 
-        assert r['foo'], {'a': 1, 'b': 2}
-        assert r['bar'] == [1, 2, 3, 5]
+        assert r["foo"], {"a": 1, "b": 2}
+        assert r["bar"] == [1, 2, 3, 5]
 
         obtained = from_repr(r)
 
         assert obtained == n
 
 
-Named = namedtuple('Named', ['foo', 'bar'])
+Named = namedtuple("Named", ["foo", "bar"])
