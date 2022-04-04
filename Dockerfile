@@ -16,5 +16,6 @@ COPY . /usr/local/pacman/
 WORKDIR /usr/local/pacman/
 
 RUN pip install -r test_requirements.txt
+RUN ["chmod", "+x", "/usr/local/pacman/bin/docker_entrypoint"]
 
 ENTRYPOINT ["/usr/local/pacman/bin/docker_entrypoint"]
