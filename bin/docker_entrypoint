@@ -1,0 +1,3 @@
+#!/bin/bash
+# This script is the entrypoint for our Docker image.
+# Empty now, but will be populated by the build script.
