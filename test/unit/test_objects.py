@@ -38,16 +38,16 @@ class TestVariable:
         assert isinstance(v.domain, Domain)
 
     def test_raises_when_no_domain(self):
-        with pytest.raises(ValueError):
+        with pytest.raises(TypeError):
             Variable("v")
 
     def test_no_initial_value(self):
         v = Variable("v", [1, 2, 3, 4])
-        assert v.value is None
+        assert v.initial_value is None
 
     def test_initial_value(self):
         v = Variable("v", [1, 2, 3, 4], 1)
-        assert v.value == 1
+        assert v.initial_value == 1
 
     def test_invalid_initial_value(self):
         with pytest.raises(ValueError):
@@ -77,7 +77,7 @@ class TestVariable:
         assert r["initial_value"] is None
         assert r["domain"] == simple_repr(v.domain)
         assert 1 in r["domain"]["values"]
-        assert type(r["domain"]["values"]) is tuple
+        assert r["domain"]["values"]["__qualname__"] == "tuple"
 
     def test_from_simple_repr(self):
         d = Domain("d", "foo", [1, 2, 3])

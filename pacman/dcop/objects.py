@@ -183,7 +183,18 @@ class Variable(SimpleRepr):
     ):
         self._name = name
         # Sanity Check for domain and initial_value
-        self._domain = domain
+        if domain is None:
+            raise ValueError("domain cannot be None")
+        if isinstance(domain, Domain):  # Note that Domain is also Iterable
+            self._domain = domain
+        elif isinstance(domain, Iterable):
+            domain = Domain(f"d_{name}", "unknown", domain)
+            self._domain = domain
+        else:
+            raise TypeError("domain is not Domain or Iterable")
+        if initial_value is not None:
+            if initial_value not in self._domain:
+                raise ValueError(f"initial value {initial_value} is not in the domain")
         self._initial_value = initial_value
 
     @property
