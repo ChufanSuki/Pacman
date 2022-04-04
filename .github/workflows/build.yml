@@ -24,7 +24,7 @@ jobs:
       run: |
         docker build -t chufansuki_pacman:$GITHUB_SHA -f ./Dockerfile . --build-arg PYTHON_VERSION=${{ matrix.python-version }}
     - name: Run tests
-      run: docker run $GITHUB_REPOSITORY:$GITHUB_SHA pytest -v
+      run: docker run chufansuki_pacman:$GITHUB_SHA pytest -v
 
 
         
