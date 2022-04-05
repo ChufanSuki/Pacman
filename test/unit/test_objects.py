@@ -1,6 +1,12 @@
 import pytest
 
-from pacman.dcop.objects import Domain, Variable, create_variables
+from pacman.dcop.objects import (
+    AgentDef,
+    Domain,
+    Variable,
+    create_agents,
+    create_variables,
+)
 from pacman.utils.simple_repr import from_repr, simple_repr
 
 
@@ -113,9 +119,69 @@ class TestCreateVariables:
         assert isinstance(variables["x_0"], Variable)
         assert variables["x_0"].name == "x_0"
 
-    def test_create_variables_from_lists(self):
+    def test_create_variables_from_tuple(self):
         d = Domain("d", "foo", [1, 2, 3])
         variables = create_variables("x_", (["a1", "a2", "a3"], ["b1", "b2", "b3"]), d)
         assert ("a1", "b2") in variables
         assert isinstance(variables[("a1", "b2")], Variable)
         assert variables[("a1", "b2")].name == "x_a1_b2"
+
+
+class TestAgent:
+    def test_name_only(self):
+        a = AgentDef("a1")
+        assert a.name == "a1"
+
+    def test_with_capacity(self):
+        a = AgentDef("a1", capacity=2)
+        assert a.capacity == 2
+
+    def test_with_arbitrary_attribute(self):
+        a = AgentDef("a1", foo="bar")
+        assert a.foo == "bar"
+
+    def test_with_various_attributes(self):
+        a = AgentDef("a1", capacity=2, foo="bar", baz=1)
+        assert a.capacity == 2
+        assert a.foo == "bar"
+        assert a.baz == 1
+
+    def test_with_default_hosting_cost(self):
+        a = AgentDef("a1", default_hosting_cost=12)
+        assert a.hosting_cost("foo") == 12
+
+    def test_with_hosting_cost(self):
+        a = AgentDef("a1", hosting_costs={"foo": 12, "bar": 13})
+        assert a.hosting_cost("foo") == 12
+        assert a.hosting_cost("bar") == 13
+        assert a.hosting_cost("baz") == 0
+
+    def test_with_default_route(self):
+        a = AgentDef("a1", default_route=12)
+        assert a.route("foo") == 12
+
+    def test_with_routes(self):
+        a = AgentDef("a1", routes={"foo": 12, "bar": 13})
+        assert a.route("foo") == 12
+        assert a.route("bar") == 13
+        assert a.route("baz") == 1
+
+
+class TestCreateAgents:
+    def test_create_agents_from_list(self):
+        agents = create_agents("a", ["1", "2", "3"])
+        assert "a1" in agents
+        assert isinstance(agents["a1"], AgentDef)
+        assert agents["a1"].name == "a1"
+
+    def test_create_agents_from_range(self):
+        agents = create_agents("a", range(3))
+        assert "a0" in agents
+        assert isinstance(agents["a0"], AgentDef)
+        assert agents["a0"].name == "a0"
+
+    def test_create_agents_from_tuple(self):
+        agents = create_agents("a", (["a1", "a2", "a3"], ["b1", "b2", "b3"]))
+        assert ("a1", "b2") in agents
+        assert isinstance(agents[("a1", "b2")], AgentDef)
+        assert agents[("a1", "b2")].name == "a1_b2"
