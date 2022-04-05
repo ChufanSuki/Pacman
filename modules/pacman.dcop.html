@@ -91,6 +91,141 @@
 <section id="module-pacman.dcop.objects">
 <span id="pacman-dcop-objects-module"></span><h2>pacman.dcop.objects module<a class="headerlink" href="#module-pacman.dcop.objects" title="Permalink to this headline"></a></h2>
 <dl class="py class">
+<dt class="sig sig-object py" id="pacman.dcop.objects.AgentDef">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.dcop.objects.</span></span><span class="sig-name descname"><span class="pre">AgentDef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">capacity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_route</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">routes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_hosting_cost</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hosting_costs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#AgentDef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.AgentDef" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="pacman.utils.html#pacman.utils.simple_repr.SimpleRepr" title="pacman.utils.simple_repr.SimpleRepr"><code class="xref py py-class docutils literal notranslate"><span class="pre">pacman.utils.simple_repr.SimpleRepr</span></code></a></p>
+<p>Definition of an agent.</p>
+<p>AgentDef objects are used when only the definition of the agent is needed,
+and not the actual running agents. This is for example the case when
+computing the computations’ distribution, or when instantiating concrete
+agents.</p>
+<p>Route cost default to 1 because they are typically used as a multiplier
+for message cost when calculating communication cost.
+On the other hand, hosting cost default to 0 because they are used in a
+sum.
+In order to allow using problem-specific attribute on agents, any named
+argument passed when creating an AgentDef is available as an attribute</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span> <span class="o">=</span> <span class="n">AgentDef</span><span class="p">(</span><span class="s1">&#39;a1&#39;</span><span class="p">,</span> <span class="n">foo</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;a1&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span><span class="o">.</span><span class="n">foo</span>
+<span class="go">&#39;bar&#39;</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>name: str</dt><dd><p>the name of the agent</p>
+</dd>
+<dt>capacity: int</dt><dd><p>the capacity of the agent</p>
+</dd>
+<dt>default_route: float</dt><dd><p>the default cost of a route when not specified in routes.</p>
+</dd>
+<dt>routes: dictionary of agents name, as string, to float</dt><dd><p>attribute a specific route cost between this agent and the agents
+whose names are used as key in the dictionary</p>
+</dd>
+<dt>default_hosting_cost: float</dt><dd><p>the default hosting for a computation when not specified in
+hosting_costs.</p>
+</dd>
+<dt>hosting_costs: dictionary of computation name, as string, to float</dt><dd><p>attribute a specific cost for hosting the computations
+whose names are used as key in the dictionary.</p>
+</dd>
+<dt>kwargs: dictionary string -&gt; any</dt><dd><p>any extra attribute that should be available on this AgentDef
+object.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacman.dcop.objects.AgentDef.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">capacity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_route</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">routes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_hosting_cost</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hosting_costs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#AgentDef.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.AgentDef.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pacman.dcop.objects.AgentDef.capacity">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">capacity</span></span><a class="headerlink" href="#pacman.dcop.objects.AgentDef.capacity" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacman.dcop.objects.AgentDef.hosting_cost">
+<span class="sig-name descname"><span class="pre">hosting_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">computation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#AgentDef.hosting_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.AgentDef.hosting_cost" title="Permalink to this definition"></a></dt>
+<dd><p>Return the hosting cost for a computation.</p>
+<dl class="simple">
+<dt>computation: str</dt><dd><p>the name of the computation</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>float</dt><dd><p>the hosting cost for the computation</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span> <span class="o">=</span> <span class="n">AgentDef</span><span class="p">(</span><span class="s1">&#39;a1&#39;</span><span class="p">,</span> <span class="n">foo</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span><span class="o">.</span><span class="n">hosting_cost</span><span class="p">(</span><span class="s1">&#39;c1&#39;</span><span class="p">)</span>
+<span class="go">0.0</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span> <span class="o">=</span> <span class="n">AgentDef</span><span class="p">(</span><span class="s1">&#39;a2&#39;</span><span class="p">,</span> <span class="n">foo</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">hosting_costs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;c1&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="o">.</span><span class="n">hosting_cost</span><span class="p">(</span><span class="s1">&#39;c1&#39;</span><span class="p">)</span>
+<span class="go">1.0</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a3</span> <span class="o">=</span> <span class="n">AgentDef</span><span class="p">(</span><span class="s1">&#39;a3&#39;</span><span class="p">,</span> <span class="n">foo</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">default_hosting_cost</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">hosting_costs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;c1&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;c2&#39;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a3</span><span class="o">.</span><span class="n">hosting_cost</span><span class="p">(</span><span class="s1">&#39;c1&#39;</span><span class="p">)</span>
+<span class="go">1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a3</span><span class="o">.</span><span class="n">hosting_cost</span><span class="p">(</span><span class="s1">&#39;c2&#39;</span><span class="p">)</span>
+<span class="go">2.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a3</span><span class="o">.</span><span class="n">hosting_cost</span><span class="p">(</span><span class="s1">&#39;c3&#39;</span><span class="p">)</span>
+<span class="go">6.0</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pacman.dcop.objects.AgentDef.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#pacman.dcop.objects.AgentDef.name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacman.dcop.objects.AgentDef.route">
+<span class="sig-name descname"><span class="pre">route</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#AgentDef.route"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.AgentDef.route" title="Permalink to this definition"></a></dt>
+<dd><p>Return the route cost between this agent and another agent.</p>
+<dl class="simple">
+<dt>agent: str</dt><dd><p>the name of the agent</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>float</dt><dd><p>the route cost between this agent and the other agent</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span> <span class="o">=</span> <span class="n">AgentDef</span><span class="p">(</span><span class="s1">&#39;a1&#39;</span><span class="p">,</span> <span class="n">foo</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a1</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;a2&#39;</span><span class="p">)</span>
+<span class="go">1.0</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span> <span class="o">=</span> <span class="n">AgentDef</span><span class="p">(</span><span class="s1">&#39;a2&#39;</span><span class="p">,</span> <span class="n">foo</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">routes</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;a1&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a2</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;a1&#39;</span><span class="p">)</span>
+<span class="go">0.5</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a3</span> <span class="o">=</span> <span class="n">AgentDef</span><span class="p">(</span><span class="s1">&#39;a3&#39;</span><span class="p">,</span> <span class="n">foo</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">default_route</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">routes</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;a1&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;a2&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;a1&#39;</span><span class="p">)</span>
+<span class="go">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;a2&#39;</span><span class="p">)</span>
+<span class="go">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a3</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;a3&#39;</span><span class="p">)</span>
+<span class="go">2.0</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="pacman.dcop.objects.Domain">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.dcop.objects.</span></span><span class="sig-name descname"><span class="pre">Domain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#Domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.Domain" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Sized</span></code>, <a class="reference internal" href="pacman.utils.html#pacman.utils.simple_repr.SimpleRepr" title="pacman.utils.simple_repr.SimpleRepr"><code class="xref py py-class docutils literal notranslate"><span class="pre">pacman.utils.simple_repr.SimpleRepr</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]</p>
@@ -266,6 +401,57 @@ the variable name: <cite>d_&lt;var_name&gt;</cite>.</p>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pacman.dcop.objects.create_agents">
+<span class="sig-prename descclassname"><span class="pre">pacman.dcop.objects.</span></span><span class="sig-name descname"><span class="pre">create_agents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_route</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">routes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_hosting_costs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hosting_costs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#create_agents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.create_agents" title="Permalink to this definition"></a></dt>
+<dd><p>Mass creation of agents definitions.</p>
+<dl class="simple">
+<dt>name_prefix: str</dt><dd><p>Used as prefix when naming the agents.</p>
+</dd>
+<dt>indexes: non-tuple iterable of indexes or tuple of iterable of indexes</dt><dd><p>If it not a tuple, an AgentDef is be created for each of
+the index. If it is a tuple of iterable, an AgentDef is created
+for every possible combinations of values from <cite>indexes</cite>.</p>
+</dd>
+<dt>default_route: float</dt><dd><p>The default cost of a route when not specified in routes.</p>
+</dd>
+<dt>routes: dictionary of agents name, as string, to float</dt><dd><p>Attribute a specific route cost between this agent and the agents
+whose names are used as key in the dictionary</p>
+</dd>
+<dt>default_hosting_costs</dt><dd><p>The default hosting for a computation when not specified in
+hosting_costs.</p>
+</dd>
+<dt>hosting_costs: dictionary of computation name, as string, to float</dt><dd><p>Attribute a specific cost for hosting the computations
+whose names are used as key in the dictionary.</p>
+</dd>
+</dl>
+<p>separator: str
+kwargs: dictionary</p>
+<dl class="simple">
+<dt>dict</dt><dd><p>A dictionary ( index -&gt; AgentDef) where index is a string or a
+tuple of string.</p>
+</dd>
+</dl>
+<p>create_variables</p>
+<p>When passing an iterable of indexes:
+&gt;&gt;&gt; agts = create_agents(‘a’, [‘1’, ‘2’, ‘3’],
+…                      default_route=2, default_hosting_costs=7)
+&gt;&gt;&gt; assert isinstance(agts[‘a2’], AgentDef)</p>
+<p>When passing a range:
+&gt;&gt;&gt; agts = create_agents(‘a’, range(20),
+…                      default_route=2, default_hosting_costs=7)
+&gt;&gt;&gt; assert isinstance(agts[‘a08’], AgentDef)</p>
+<p>When passing a tuple of iterables of indexes:
+&gt;&gt;&gt; agts = create_agents(‘a’, ([‘1’, ‘2’, ‘3’], [‘x’, ‘y’, ‘z’]), default_route=2, default_hosting_costs=7)
+&gt;&gt;&gt; assert isinstance(agts[(‘1’, ‘z’)], AgentDef)
+&gt;&gt;&gt; assert isinstance(agts[(‘2’, ‘x’)], AgentDef)
+&gt;&gt;&gt; assert agts[(‘2’, ‘x’)].name == ‘a2_x’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">...</span></code>]], <a class="reference internal" href="#pacman.dcop.objects.AgentDef" title="pacman.dcop.objects.AgentDef"><code class="xref py py-class docutils literal notranslate"><span class="pre">AgentDef</span></code></a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
