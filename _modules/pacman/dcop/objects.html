@@ -444,7 +444,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_routes</span> <span class="o">=</span> <span class="n">routes</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_default_hosting_cost</span> <span class="o">=</span> <span class="n">default_hosting_cost</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_hosting_costs</span> <span class="o">=</span> <span class="n">hosting_costs</span> <span class="ow">or</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="n">kwargs</span>
+        <span class="p">)</span>  <span class="c1"># TODO: Modify kwargs keys with preceding underscore</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
