@@ -8,12 +8,13 @@ Pacman: Clean implementations of Distributed Constraint Optimization Algorithms
 Main Features
 ~~~~~~~~~~~~~
 
-- Pacman provides implementations of many classic DCOP algorithms(DSA, MGM, MaxSum, DPOP, etc.).
-- Pacman allows you to implement our own DCOP algorithm easily, by providing all the required infrastructure: agents, messaging system, metrics collection, etc.
-- Agents can run on the same computer or on different machines, making real distributed experiments easy.
-- Multi-platform : pyDCOP can run on windows, Mac and Linux.
-- Pacman is especially suited for IoT use-case and can run agents on single-board computers like the Raspberry Pi.
-- In addition to classical DCOP algorithm, Pacman also provide novel approaches for using DCOP in IoT systems: several strategies are available to distribute DCOP computations on agents and achieve resiliency.
+- Generation of standard DCOP test problems: weighted graph coloring problems, scale-free problems and related parameter settings to generate the corresponding XML files/YAML files for the problems.
+- Test file parsing: parse the XML file/YAML file to map the information in the DCOP problem to the underlying structure.
+- Inter-process communication mechanism: implementation of process communication to simulate multi-intelligent body parallel interaction, and implementation of asynchronous and synchronous control methods.
+- Multi-platform : Pacman can run on windows, Mac and Linux.
+- Reproduce several classical DCOP algorithms methods, including MGM, DPOP, etc.
+- Define algorithm performance metrics and implement each performance metric for Visualization interface for statistical testing of algorithm performance and display of algorithm parameters and performance.
+
 
 
 .. toctree::

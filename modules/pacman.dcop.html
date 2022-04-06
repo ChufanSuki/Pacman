@@ -48,6 +48,7 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">pacman.dcop package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-pacman.dcop.objects">pacman.dcop.objects module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-pacman.dcop.relations">pacman.dcop.relations module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-pacman.dcop">Module contents</a></li>
 </ul>
 </li>
@@ -501,6 +502,251 @@ tuple of string.</p>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">...</span></code>]], <a class="reference internal" href="#pacman.dcop.objects.Variable" title="pacman.dcop.objects.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a>]</p>
 </dd>
 </dl>
+</dd></dl>
+
+</section>
+<section id="module-pacman.dcop.relations">
+<span id="pacman-dcop-relations-module"></span><h2>pacman.dcop.relations module<a class="headerlink" href="#module-pacman.dcop.relations" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pacman.dcop.relations.AbstractBaseRelation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.dcop.relations.</span></span><span class="sig-name descname"><span class="pre">AbstractBaseRelation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/relations.html#AbstractBaseRelation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.relations.AbstractBaseRelation" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pacman.dcop.relations.RelationProtocol" title="pacman.dcop.relations.RelationProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">pacman.dcop.relations.RelationProtocol</span></code></a></p>
+<p>This class is meant to be used as a base when implementing a Relation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacman.dcop.relations.AbstractBaseRelation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/relations.html#AbstractBaseRelation.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.relations.AbstractBaseRelation.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pacman.dcop.relations.AbstractBaseRelation.dimensions">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dimensions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pacman.dcop.objects.Variable" title="pacman.dcop.objects.Variable"><span class="pre">pacman.dcop.objects.Variable</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pacman.dcop.relations.AbstractBaseRelation.dimensions" title="Permalink to this definition"></a></dt>
+<dd><p>The dimensions of a relation is the list of variables it depends on.
+Returns: a list of Variable objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="#pacman.dcop.objects.Variable" title="pacman.dcop.objects.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pacman.dcop.relations.AbstractBaseRelation.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pacman.dcop.relations.AbstractBaseRelation.name" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacman.dcop.relations.RelationProtocol">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.dcop.relations.</span></span><span class="sig-name descname"><span class="pre">RelationProtocol</span></span><a class="reference internal" href="../_modules/pacman/dcop/relations.html#RelationProtocol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.relations.RelationProtocol" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class is used to define a protocol that must be implemented by any
+object that represents a Relation. It is meant to be usable with many
+algorithms, like for example dpop and maxsum.</p>
+<p>It is mostly defined for documentation purpose, objects used for are not
+required to inherit from this class as long as they implement the methods
+defined here.</p>
+<p>Relation objects MUST be immutable and impletemnt <cite>__eq__()</cite> and
+<cite>__hash__()</cite>. This means that methods like  <cite>set_value_for_assignment</cite>
+must return a new relation instead of modifying the current one.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="pacman.dcop.relations.RelationProtocol.arity">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">arity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#pacman.dcop.relations.RelationProtocol.arity" title="Permalink to this definition"></a></dt>
+<dd><p>the number of variables in the scope of the relation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Returns</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pacman.dcop.relations.RelationProtocol.dimensions">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dimensions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pacman.dcop.objects.Variable" title="pacman.dcop.objects.Variable"><span class="pre">pacman.dcop.objects.Variable</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pacman.dcop.relations.RelationProtocol.dimensions" title="Permalink to this definition"></a></dt>
+<dd><p>The dimensions of a relation is the list of variables it depends on.
+Returns: a list of Variable objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="#pacman.dcop.objects.Variable" title="pacman.dcop.objects.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacman.dcop.relations.RelationProtocol.get_value_for_assignment">
+<span class="sig-name descname"><span class="pre">get_value_for_assignment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">assignment</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/relations.html#RelationProtocol.get_value_for_assignment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.relations.RelationProtocol.get_value_for_assignment" title="Permalink to this definition"></a></dt>
+<dd><p>Get constraint value for an assignment.</p>
+<p>Relying on dimension order (i.e. passing the assignment as a list)
+is fragile and discouraged, use dict or keyword arguments whenever
+possible instead !</p>
+<dl class="simple">
+<dt>assignment: a list of value</dt><dd><p>a full assignment for the relation, containing one
+value for each of the variable this relation depends on. It must be
+either a list of values, in the same order as the dimensions of the
+relation, or a dict { var_name: value}</p>
+</dd>
+</dl>
+<p>the value of the relation for this assignment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pacman.dcop.relations.RelationProtocol.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pacman.dcop.relations.RelationProtocol.name" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pacman.dcop.relations.RelationProtocol.scope_names">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scope_names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pacman.dcop.relations.RelationProtocol.scope_names" title="Permalink to this definition"></a></dt>
+<dd><p>a list of variable names in the scope of the relation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Returns</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacman.dcop.relations.RelationProtocol.set_value_for_assignment">
+<span class="sig-name descname"><span class="pre">set_value_for_assignment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">assignment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relation_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/relations.html#RelationProtocol.set_value_for_assignment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.relations.RelationProtocol.set_value_for_assignment" title="Permalink to this definition"></a></dt>
+<dd><p>Return a new relation with the same name and the same value for
+every possible assignment except <cite>assignment</cite>, which maps to
+<cite>relation_value</cite>.</p>
+<p>This method is optional: many concrete Relation implements will
+probably not implement it. In that case they should raise an
+<cite>NotImplemented</cite> exception.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>assignment</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]) – a full assignment for the relation, containing one</p>
+</dd>
+</dl>
+<p>value for each of the variable this relation depends on.
+:param relation_value: the value of the relation for this assignment.</p>
+<p>:return a new Relation object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pacman.dcop.relations.RelationProtocol" title="pacman.dcop.relations.RelationProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">RelationProtocol</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pacman.dcop.relations.RelationProtocol.shape">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shape</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#pacman.dcop.relations.RelationProtocol.shape" title="Permalink to this definition"></a></dt>
+<dd><p>The shape of a relation is defined as a tuple containing the size of the domain of each variable in dimensions.
+Returns: the shape of the relation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">...</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacman.dcop.relations.RelationProtocol.slice">
+<span class="sig-name descname"><span class="pre">slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">partial_assignment</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/relations.html#RelationProtocol.slice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.relations.RelationProtocol.slice" title="Permalink to this definition"></a></dt>
+<dd><p>Slice operation on a relation.
+:type partial_assignment: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>]
+:param partial_assignment: a dictionary of variable name, as string, to value</p>
+<p>Returns: a new relation with the variables in partial_assignment set to the given value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pacman.dcop.relations.RelationProtocol" title="pacman.dcop.relations.RelationProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">RelationProtocol</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pacman.dcop.relations.ZeroAryityRelation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.dcop.relations.</span></span><span class="sig-name descname"><span class="pre">ZeroAryityRelation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/relations.html#ZeroAryityRelation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.relations.ZeroAryityRelation" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pacman.dcop.relations.AbstractBaseRelation" title="pacman.dcop.relations.AbstractBaseRelation"><code class="xref py py-class docutils literal notranslate"><span class="pre">pacman.dcop.relations.AbstractBaseRelation</span></code></a>, <a class="reference internal" href="pacman.utils.html#pacman.utils.simple_repr.SimpleRepr" title="pacman.utils.simple_repr.SimpleRepr"><code class="xref py py-class docutils literal notranslate"><span class="pre">pacman.utils.simple_repr.SimpleRepr</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pacman.dcop.relations.ZeroAryityRelation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/relations.html#ZeroAryityRelation.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.relations.ZeroAryityRelation.__init__" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacman.dcop.relations.ZeroAryityRelation.get_value_for_assignment">
+<span class="sig-name descname"><span class="pre">get_value_for_assignment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">assignment</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/relations.html#ZeroAryityRelation.get_value_for_assignment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.relations.ZeroAryityRelation.get_value_for_assignment" title="Permalink to this definition"></a></dt>
+<dd><p>Get constraint value for an assignment.</p>
+<p>Relying on dimension order (i.e. passing the assignment as a list)
+is fragile and discouraged, use dict or keyword arguments whenever
+possible instead !</p>
+<dl class="simple">
+<dt>assignment: a list of value</dt><dd><p>a full assignment for the relation, containing one
+value for each of the variable this relation depends on. It must be
+either a list of values, in the same order as the dimensions of the
+relation, or a dict { var_name: value}</p>
+</dd>
+</dl>
+<p>the value of the relation for this assignment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacman.dcop.relations.ZeroAryityRelation.set_value_for_assignment">
+<span class="sig-name descname"><span class="pre">set_value_for_assignment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">assignment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">relation_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/relations.html#ZeroAryityRelation.set_value_for_assignment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.relations.ZeroAryityRelation.set_value_for_assignment" title="Permalink to this definition"></a></dt>
+<dd><p>Return a new relation with the same name and the same value for
+every possible assignment except <cite>assignment</cite>, which maps to
+<cite>relation_value</cite>.</p>
+<p>This method is optional: many concrete Relation implements will
+probably not implement it. In that case they should raise an
+<cite>NotImplemented</cite> exception.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>assignment</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]) – a full assignment for the relation, containing one</p>
+</dd>
+</dl>
+<p>value for each of the variable this relation depends on.
+:param relation_value: the value of the relation for this assignment.</p>
+<p>:return a new Relation object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pacman.dcop.relations.RelationProtocol" title="pacman.dcop.relations.RelationProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">RelationProtocol</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pacman.dcop.relations.ZeroAryityRelation.slice">
+<span class="sig-name descname"><span class="pre">slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">partial_assignment</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/relations.html#ZeroAryityRelation.slice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.relations.ZeroAryityRelation.slice" title="Permalink to this definition"></a></dt>
+<dd><p>Slice operation on a relation.
+:type partial_assignment: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>]
+:param partial_assignment: a dictionary of variable name, as string, to value</p>
+<p>Returns: a new relation with the variables in partial_assignment set to the given value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#pacman.dcop.relations.RelationProtocol" title="pacman.dcop.relations.RelationProtocol"><code class="xref py py-class docutils literal notranslate"><span class="pre">RelationProtocol</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
