@@ -374,7 +374,9 @@ class AgentDef(SimpleRepr):
         self._routes = routes or {}
         self._default_hosting_cost = default_hosting_cost
         self._hosting_costs = hosting_costs or {}
-        self.__dict__.update(kwargs)
+        self.__dict__.update(
+            kwargs
+        )  # TODO: Modify kwargs keys with preceding underscore
 
     @property
     def name(self):
