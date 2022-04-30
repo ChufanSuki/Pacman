@@ -1,15 +1,15 @@
 import pytest
 
-from pacman.dcop.relations import ZeroAryityRelation
+from pacman.dcop.relations import ZeroAryRelation
 from pacman.utils.simple_repr import from_repr, simple_repr
 
 
 @pytest.fixture
 def zero_arity_relation():
-    return ZeroAryityRelation("r0", 42)
+    return ZeroAryRelation("r0", 42)
 
 
-class TestZeroArityRelation:
+class TestZeroAryRelation:
     def test_properties(self, zero_arity_relation):
         assert zero_arity_relation.name == "r0"
         assert zero_arity_relation.dimensions == []
@@ -57,6 +57,6 @@ class TestZeroArityRelation:
     def test_hash(self, zero_arity_relation):
         h = hash(zero_arity_relation)
         assert h is not None
-        assert h == hash(ZeroAryityRelation("r0", 42))
-        assert h != hash(ZeroAryityRelation("r1", 42))
-        assert h != hash(ZeroAryityRelation("r0", 43))
+        assert h == hash(ZeroAryRelation("r0", 42))
+        assert h != hash(ZeroAryRelation("r1", 42))
+        assert h != hash(ZeroAryRelation("r0", 43))

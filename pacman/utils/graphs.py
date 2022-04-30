@@ -11,7 +11,7 @@ class Node:
     def __init__(self, content, node_type=None):
         """
 
-        :param node_type: Type of node (for bi partite nodes)
+        :param node_type: Type of node (for bipartite nodes)
         :param content: the content object must have a name property that
         will be used as the node name (and id, which means that in a graph
         all names must be different)
@@ -20,12 +20,25 @@ class Node:
         self.type = node_type
         self.neighbors = []
 
+    def __hash__(self):
+        return hash((self.content.name, self.type))
+
+    def __eq__(self, other):
+        if type(other) != Node:
+            return False
+        if self.type == other.type and self.content == other.content and \
+                self.neighbors == other.neighbors:
+            return True
+        return False
+
+
     @property
     def name(self):
         return self.content.name
 
     def add_neighbors(self, node, directed=False):
-        if node.type is not None and self.type == node.type:
+        if node.type is not None and self.type is not None and self.type == \
+                node.type:
             raise ValueError(
                 "Cannot add a neighbor of the same type in a bipartie graph: {} - {}".format(
                     node, self

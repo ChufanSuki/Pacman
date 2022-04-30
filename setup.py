@@ -42,6 +42,7 @@ setup(
         "requests",
         "websocket-server",
         "tqdm",
+        "matplotlib"
     ],
     tests_require=TESTS_REQUIRE,
     extras_require={
