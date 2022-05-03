@@ -68,9 +68,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pacman.dcop.objects</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">itertools</span>
+<span></span>
 <span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Sized</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Real</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Sized</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
 <span class="kn">from</span> <span class="nn">pacman.utils.expressionfunction</span> <span class="kn">import</span> <span class="n">ExpressionFunction</span>
 <span class="kn">from</span> <span class="nn">pacman.utils.simple_repr</span> <span class="kn">import</span> <span class="n">SimpleRepr</span><span class="p">,</span> <span class="n">SimpleReprException</span>
@@ -86,20 +91,19 @@
 
 <span class="sd">    A domain object can be used like a list of value as it support basic</span>
 <span class="sd">    list-like operations : &#39;in&#39;, &#39;len&#39;, iterable...</span>
-
-<span class="sd">    &gt;&gt;&gt; binary_domain = Domain(&quot;binary&quot;, &quot;binary&quot;, [0, 1])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Domain.__init__"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.Domain.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">domain_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">):</span>
+<div class="viewcode-block" id="Domain.__init__"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.Domain.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">domain_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :param name: The name of the domain</span>
-<span class="sd">        :param domain_type: A string indetifying the kind of value in the domaibn. For example:</span>
+
+<span class="sd">        :param: name: name of the domain.</span>
+<span class="sd">        :param domain_type: a string identifying the kind of value in the</span>
+<span class="sd">                            domain. For example : &#39;luminosity&#39;, &#39;humidity&#39;, ...</span>
 <span class="sd">        :param values: an array containing the values allowed for the</span>
 <span class="sd">                       variables with this domain.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_domain_type</span> <span class="o">=</span> <span class="n">domain_type</span>
-        <span class="c1"># we don&#39;t want to mutate the values, so a tuple is used for faster and safer code</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">values</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
@@ -136,10 +140,10 @@
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;VariableDomain(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;VariableDomain(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;VariableDomain(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;VariableDomain(</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_domain_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">))</span>
@@ -157,10 +161,6 @@
 <span class="sd">        -------</span>
 <span class="sd">        the index of this value in the domain.</span>
 
-<span class="sd">        Error</span>
-<span class="sd">        -----</span>
-<span class="sd">        If the value is not in the domain, an ValueError is raised.</span>
-
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 
@@ -170,32 +170,9 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">val</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="n">v</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">i</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2"> is not in the domain </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Domain.to_str"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.Domain.to_str">[docs]</a>    <span class="k">def</span> <span class="nf">to_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert a value to a string representation</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        val:</span>
-<span class="sd">            a value in the domain</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        a string representation of the value</span>
-
-<span class="sd">        Examples</span>
-<span class="sd">        --------</span>
-
-<span class="sd">        &gt;&gt;&gt; d = Domain(&#39;d&#39;, &#39;d&#39;, [1, 2, 3])</span>
-<span class="sd">        &gt;&gt;&gt; d.to_str(2)</span>
-<span class="sd">        &#39;2&#39;</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; is not in the domain &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Domain.to_domain_value"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.Domain.to_domain_value">[docs]</a>    <span class="k">def</span> <span class="nf">to_domain_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -225,12 +202,15 @@
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">==</span> <span class="n">val</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2"> is not in the domain </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; is not in the domain &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span></div></div>
 
 
+<span class="c1"># We keep VariableDomain as an alias for the moment, but Domain should be</span>
+<span class="c1"># preferred.</span>
 <span class="n">VariableDomain</span> <span class="o">=</span> <span class="n">Domain</span>
 
 <span class="n">binary_domain</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="s2">&quot;binary&quot;</span><span class="p">,</span> <span class="s2">&quot;binary&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
 
 <div class="viewcode-block" id="Variable"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.Variable">[docs]</a><span class="k">class</span> <span class="nc">Variable</span><span class="p">(</span><span class="n">SimpleRepr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A DCOP variable.</span>
@@ -254,23 +234,26 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">has_cost</span> <span class="o">=</span> <span class="kc">False</span>
+
 <div class="viewcode-block" id="Variable.__init__"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.Variable.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Domain</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span> <span class="n">initial_value</span><span class="o">=</span><span class="kc">None</span>
-    <span class="p">):</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Domain</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span> <span class="n">initial_value</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="c1"># Sanity Check for domain and initial_value</span>
-        <span class="k">if</span> <span class="n">domain</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;domain cannot be None&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">Domain</span><span class="p">):</span>  <span class="c1"># Note that Domain is also Iterable</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span> <span class="o">=</span> <span class="n">domain</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
-            <span class="n">domain</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;d_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span> <span class="o">=</span> <span class="n">domain</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;domain is not Domain or Iterable&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">initial_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">initial_value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;initial value </span><span class="si">{</span><span class="n">initial_value</span><span class="si">}</span><span class="s2"> is not in the domain&quot;</span><span class="p">)</span>
+        <span class="c1"># If the domain has no name, simply use a named derived from the</span>
+        <span class="c1"># variable name</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">VariableDomain</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Invalid domain, must be an iterable or &quot;</span> <span class="s2">&quot;VariableDomain &quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">Domain</span><span class="p">):</span>
+            <span class="n">domain</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="s2">&quot;d_&quot;</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;unkown&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span> <span class="o">=</span> <span class="n">domain</span>
+        <span class="k">if</span> <span class="n">initial_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">initial_value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Invalid initial value </span><span class="si">{}</span><span class="s2">, not in domain values&quot;</span>
+                <span class="s2">&quot; </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">initial_value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initial_value</span> <span class="o">=</span> <span class="n">initial_value</span></div>
 
     <span class="nd">@property</span>
@@ -282,39 +265,41 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">initial_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">initial_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initial_value</span>
 
+<div class="viewcode-block" id="Variable.cost_for_val"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.Variable.cost_for_val">[docs]</a>    <span class="k">def</span> <span class="nf">cost_for_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span></div>
+
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Variable(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;Variable(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Variable(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;Variable(</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span><span class="p">))</span>
-
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">Variable</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">o</span><span class="o">.</span><span class="n">name</span>
-            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">==</span> <span class="n">o</span><span class="o">.</span><span class="n">domain</span>
-            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span> <span class="o">==</span> <span class="n">o</span><span class="o">.</span><span class="n">initial_value</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">initial_value</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">domain</span>
         <span class="p">):</span>
             <span class="k">return</span> <span class="kc">True</span>
-
         <span class="k">return</span> <span class="kc">False</span>
 
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initial_value</span><span class="p">))</span>
+
 <div class="viewcode-block" id="Variable.clone"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.Variable.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">Variable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">Variable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="create_variables"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.create_variables">[docs]</a><span class="k">def</span> <span class="nf">create_variables</span><span class="p">(</span>
-    <span class="n">name_prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">indexes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">],</span>
-    <span class="n">domain</span><span class="p">:</span> <span class="n">Domain</span><span class="p">,</span>
-    <span class="n">separator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span>
+        <span class="n">name_prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">indexes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">],</span>
+        <span class="n">domain</span><span class="p">:</span> <span class="n">Domain</span><span class="p">,</span>
+        <span class="n">separator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]],</span> <span class="n">Variable</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Mass creation of variables.</span>
 
@@ -323,7 +308,7 @@
 <span class="sd">    name_prefix: str</span>
 <span class="sd">        Used as prefix when naming the variables.</span>
 <span class="sd">    indexes: non-tuple iterable of indexes or tuple of iterables of indexes</span>
-<span class="sd">        If it not a tuple, a variable is created for each of</span>
+<span class="sd">        If it not a tuple, a variable is be created for each of</span>
 <span class="sd">        the index. The index might be a range(see examples).</span>
 <span class="sd">         If it is a tuple of iterable, a variable is created</span>
 <span class="sd">        for every possible combinations of values from `indexes`.</span>
@@ -366,22 +351,101 @@
 <span class="sd">    &gt;&gt;&gt; assert &#39;R&#39; in vrs[(&#39;x2&#39;, &#39;a3&#39;)].domain</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">variables</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">variables</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: Dict[Union[str, Tuple[str, ...]], Variable]</span>
+
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">indexes</span><span class="p">):</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">name_prefix</span> <span class="o">+</span> <span class="n">separator</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="n">variables</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">combi</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">indexes</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name_prefix</span> <span class="o">+</span> <span class="n">separator</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">combi</span><span class="p">)</span>
+            <span class="n">variables</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">combi</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="nb">range</span><span class="p">):</span>
+        <span class="n">digit_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">indexes</span><span class="o">.</span><span class="n">stop</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">name_prefix</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name_prefix</span><span class="si">}{</span><span class="n">i</span><span class="si">:</span><span class="s2">0</span><span class="si">{</span><span class="n">digit_count</span><span class="si">}</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="n">variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">:</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">name_prefix</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
             <span class="n">variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;indexes must be an iterable or range or tuple of iterables&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;indexes must be an iterable or a tuple of iterables&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">variables</span></div>
+
+
+<div class="viewcode-block" id="BinaryVariable"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.BinaryVariable">[docs]</a><span class="k">class</span> <span class="nc">BinaryVariable</span><span class="p">(</span><span class="n">Variable</span><span class="p">):</span>
+<div class="viewcode-block" id="BinaryVariable.__init__"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.BinaryVariable.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">binary_domain</span><span class="p">,</span> <span class="n">initial_value</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;BinaryVariable(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;BinaryVariable(</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BinaryVariable.clone"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.BinaryVariable.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">BinaryVariable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="create_binary_variables"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.create_binary_variables">[docs]</a><span class="k">def</span> <span class="nf">create_binary_variables</span><span class="p">(</span>
+        <span class="n">name_prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">indexes</span><span class="p">,</span> <span class="n">separator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">],</span> <span class="n">BinaryVariable</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Mass creation of binary variables.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name_prefix: str</span>
+<span class="sd">        Used as prefix when naming the binary variables.</span>
+<span class="sd">    indexes: non-tuple iterable of indexes or tuple of iterables of indexes</span>
+<span class="sd">        If it not a tuple, a binary variable is be created for each of</span>
+<span class="sd">        the index. If it is a tuple of iterable, a binary variable is created</span>
+<span class="sd">        for every possible combinations of values from `indexes`.</span>
+<span class="sd">    separator: str</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        A dictionary ( index -&gt; Binary variable) where index is a string or a</span>
+<span class="sd">        tuple of string.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    create_variables</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    When passing an iterable of indexes:</span>
+<span class="sd">    &gt;&gt;&gt; vrs = create_binary_variables(&#39;x_&#39;, [&#39;a1&#39;, &#39;a2&#39;, &#39;a3&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; assert isinstance(vrs[&#39;x_a2&#39;], BinaryVariable)</span>
+
+
+<span class="sd">    When passing a tuple of iterables of indexes:</span>
+<span class="sd">    &gt;&gt;&gt; vrs = create_binary_variables(&#39;m_&#39;,</span>
+<span class="sd">    ...                               ([&#39;x1&#39;, &#39;x2&#39;],</span>
+<span class="sd">    ...                                [&#39;a1&#39;, &#39;a2&#39;, &#39;a3&#39;]))</span>
+<span class="sd">    &gt;&gt;&gt; assert isinstance(vrs[(&#39;x2&#39;, &#39;a3&#39;)], BinaryVariable)</span>
+<span class="sd">    &gt;&gt;&gt; assert vrs[(&#39;x2&#39;, &#39;a3&#39;)].name ==  &#39;m_x2_a3&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vrs = create_binary_variables(&#39;m_&#39;,</span>
+<span class="sd">    ...                               ([&#39;x1&#39;, &#39;x2&#39;],</span>
+<span class="sd">    ...                                [&#39;a1&#39;, &#39;a2&#39;, &#39;a3&#39;]),</span>
+<span class="sd">    ...                               separator=&#39;B&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; assert vrs[(&#39;x2&#39;, &#39;a3&#39;)].name == &#39;m_x2Ba3&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">variables</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: Dict[Union[str, Tuple[str, ...]], BinaryVariable]</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">combi</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">indexes</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name_prefix</span> <span class="o">+</span> <span class="n">separator</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">combi</span><span class="p">)</span>
+            <span class="n">variables</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">combi</span><span class="p">)]</span> <span class="o">=</span> <span class="n">BinaryVariable</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name_prefix</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">BinaryVariable</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;indexes must be an iterable or a tuple of iterables&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">variables</span></div>
+
 
 <div class="viewcode-block" id="VariableWithCostDict"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.VariableWithCostDict">[docs]</a><span class="k">class</span> <span class="nc">VariableWithCostDict</span><span class="p">(</span><span class="n">Variable</span><span class="p">):</span>
     <span class="n">has_cost</span> <span class="o">=</span> <span class="kc">True</span>
@@ -590,6 +654,7 @@
             <span class="n">noise_level</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_noise_level</span><span class="p">,</span>
         <span class="p">)</span></div></div>
 
+
 <div class="viewcode-block" id="ExternalVariable"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.ExternalVariable">[docs]</a><span class="k">class</span> <span class="nc">ExternalVariable</span><span class="p">(</span><span class="n">Variable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An external is a variable that is not subject to optimization: its value</span>
@@ -646,7 +711,7 @@
 
 <span class="sd">    AgentDef objects are used when only the definition of the agent is needed,</span>
 <span class="sd">    and not the actual running agents. This is for example the case when</span>
-<span class="sd">    computing the computations&#39; distribution, or when instantiating concrete</span>
+<span class="sd">    computing the computations&#39; distribution, or when instanciating concrete</span>
 <span class="sd">    agents.</span>
 
 <span class="sd">    Notes</span>
@@ -672,14 +737,12 @@
 <span class="sd">    ----------</span>
 <span class="sd">    name: str</span>
 <span class="sd">        the name of the agent</span>
-<span class="sd">    capacity: int</span>
-<span class="sd">        the capacity of the agent</span>
 <span class="sd">    default_route: float</span>
 <span class="sd">        the default cost of a route when not specified in routes.</span>
 <span class="sd">    routes: dictionary of agents name, as string, to float</span>
 <span class="sd">        attribute a specific route cost between this agent and the agents</span>
 <span class="sd">        whose names are used as key in the dictionary</span>
-<span class="sd">    default_hosting_cost: float</span>
+<span class="sd">    default_hosting_cost</span>
 <span class="sd">        the default hosting for a computation when not specified in</span>
 <span class="sd">        hosting_costs.</span>
 <span class="sd">    hosting_costs: dictionary of computation name, as string, to float</span>
@@ -692,35 +755,29 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="AgentDef.__init__"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.AgentDef.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">capacity</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
-        <span class="n">default_route</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="n">routes</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">default_hosting_cost</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">hosting_costs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-    <span class="p">):</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">default_route</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">routes</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">default_hosting_cost</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">hosting_costs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Build an AgentDef, only the name is mandatory.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_capacity</span> <span class="o">=</span> <span class="n">capacity</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_default_route</span> <span class="o">=</span> <span class="n">default_route</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_routes</span> <span class="o">=</span> <span class="n">routes</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_attr</span> <span class="o">=</span> <span class="n">kwargs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_default_hosting_cost</span> <span class="o">=</span> <span class="n">default_hosting_cost</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_hosting_costs</span> <span class="o">=</span> <span class="n">hosting_costs</span> <span class="ow">or</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-            <span class="n">kwargs</span>
-        <span class="p">)</span>  <span class="c1"># TODO: Modify kwargs keys with preceding underscore</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hosting_costs</span> <span class="o">=</span> <span class="n">hosting_costs</span> <span class="k">if</span> <span class="n">hosting_costs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_default_route</span> <span class="o">=</span> <span class="n">default_route</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_routes</span> <span class="o">=</span> <span class="n">routes</span> <span class="k">if</span> <span class="n">routes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span></div>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">capacity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_capacity</span>
-
 <div class="viewcode-block" id="AgentDef.hosting_cost"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.AgentDef.hosting_cost">[docs]</a>    <span class="k">def</span> <span class="nf">hosting_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">computation</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the hosting cost for a computation.</span>
+        <span class="sd">&quot;&quot;&quot;The cost for hosting a computation.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -730,77 +787,144 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        float</span>
-<span class="sd">            the hosting cost for the computation</span>
+<span class="sd">            the cost for hosting a computation</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; a1 = AgentDef(&#39;a1&#39;, foo=&#39;bar&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; a1.hosting_cost(&#39;c1&#39;)</span>
-<span class="sd">        0.0</span>
+<span class="sd">        &gt;&gt;&gt; agt = AgentDef(&#39;a1&#39;, default_hosting_cost=3)</span>
+<span class="sd">        &gt;&gt;&gt; agt.hosting_cost(&#39;c2&#39;)</span>
+<span class="sd">        3</span>
+<span class="sd">        &gt;&gt;&gt; agt.hosting_cost(&#39;c3&#39;)</span>
+<span class="sd">        3</span>
 
-<span class="sd">        &gt;&gt;&gt; a2 = AgentDef(&#39;a2&#39;, foo=&#39;bar&#39;, hosting_costs={&#39;c1&#39;: 1.0})</span>
-<span class="sd">        &gt;&gt;&gt; a2.hosting_cost(&#39;c1&#39;)</span>
-<span class="sd">        1.0</span>
+<span class="sd">        &gt;&gt;&gt; agt = AgentDef(&#39;a1&#39;, hosting_costs={&#39;c2&#39;: 6})</span>
+<span class="sd">        &gt;&gt;&gt; agt.hosting_cost(&#39;c2&#39;)</span>
+<span class="sd">        6</span>
+<span class="sd">        &gt;&gt;&gt; agt.hosting_cost(&#39;c3&#39;)</span>
+<span class="sd">        0</span>
 
-<span class="sd">        &gt;&gt;&gt; a3 = AgentDef(&#39;a3&#39;, foo=&#39;bar&#39;, default_hosting_cost=6, hosting_costs={&#39;c1&#39;: 1.0, &#39;c2&#39;: 2.0})</span>
-<span class="sd">        &gt;&gt;&gt; a3.hosting_cost(&#39;c1&#39;)</span>
-<span class="sd">        1.0</span>
-<span class="sd">        &gt;&gt;&gt; a3.hosting_cost(&#39;c2&#39;)</span>
-<span class="sd">        2.0</span>
-<span class="sd">        &gt;&gt;&gt; a3.hosting_cost(&#39;c3&#39;)</span>
-<span class="sd">        6.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">computation</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hosting_costs</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hosting_costs</span><span class="p">[</span><span class="n">computation</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_hosting_cost</span></div>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_hosting_cost</span></div>
 
-<div class="viewcode-block" id="AgentDef.route"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.AgentDef.route">[docs]</a>    <span class="k">def</span> <span class="nf">route</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">agent</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the route cost between this agent and another agent.</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_hosting_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_hosting_cost</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">hosting_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hosting_costs</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_route</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_route</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">routes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_routes</span>
+
+<div class="viewcode-block" id="AgentDef.route"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.AgentDef.route">[docs]</a>    <span class="k">def</span> <span class="nf">route</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_agt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;The route cost between this agent and other_agent.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        agent: str</span>
-<span class="sd">            the name of the agent</span>
+<span class="sd">        other_agt: str</span>
+<span class="sd">            the name of the other agent</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        float</span>
-<span class="sd">            the route cost between this agent and the other agent</span>
+<span class="sd">            the cost of the route</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; a1 = AgentDef(&#39;a1&#39;, foo=&#39;bar&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; a1.route(&#39;a2&#39;)</span>
-<span class="sd">        1.0</span>
+<span class="sd">        &gt;&gt;&gt; agt = AgentDef(&#39;a1&#39;, default_route=5)</span>
+<span class="sd">        &gt;&gt;&gt; agt.route(&#39;a2&#39;)</span>
+<span class="sd">        5</span>
+<span class="sd">        &gt;&gt;&gt; agt.route(&#39;a1&#39;)</span>
+<span class="sd">        0</span>
 
-<span class="sd">        &gt;&gt;&gt; a2 = AgentDef(&#39;a2&#39;, foo=&#39;bar&#39;, routes={&#39;a1&#39;: 0.5})</span>
-<span class="sd">        &gt;&gt;&gt; a2.route(&#39;a1&#39;)</span>
-<span class="sd">        0.5</span>
-
-<span class="sd">        &gt;&gt;&gt; a3 = AgentDef(&#39;a3&#39;, foo=&#39;bar&#39;, default_route=2, routes={&#39;a1&#39;: 0.5, &#39;a2&#39;: 0.5})</span>
-<span class="sd">        &gt;&gt;&gt; a3.route(&#39;a1&#39;)</span>
-<span class="sd">        0.5</span>
-<span class="sd">        &gt;&gt;&gt; a3.route(&#39;a2&#39;)</span>
-<span class="sd">        0.5</span>
-<span class="sd">        &gt;&gt;&gt; a3.route(&#39;a3&#39;)</span>
-<span class="sd">        2.0</span>
+<span class="sd">        &gt;&gt;&gt; agt = AgentDef(&#39;a1&#39;, routes={&#39;a2&#39;:8})</span>
+<span class="sd">        &gt;&gt;&gt; agt.route(&#39;a2&#39;)</span>
+<span class="sd">        8</span>
+<span class="sd">        &gt;&gt;&gt; agt.route(&#39;a3&#39;)</span>
+<span class="sd">        1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">agent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_routes</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_routes</span><span class="p">[</span><span class="n">agent</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_route</span></div></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other_agt</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_routes</span><span class="p">[</span><span class="n">other_agt</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_route</span></div>
+
+<div class="viewcode-block" id="AgentDef.extra_attr"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.AgentDef.extra_attr">[docs]</a>    <span class="k">def</span> <span class="nf">extra_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extra attributes for this agent definition.</span>
+
+<span class="sd">        These extra attributes are the `kwargs` passed to the constructor.</span>
+<span class="sd">        They are typically used to defined extra properties on an agent,</span>
+<span class="sd">        like the capacity.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Dictionary of strings to values,</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attr</span></div>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attr</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;No attribute &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; on &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+    <span class="c1"># When using the process mode, AgentDef objects are pickled to be</span>
+    <span class="c1"># passed to another process. because we use the special method</span>
+    <span class="c1"># __getattr__, we must provide a __getstate__ and __setstate__ method</span>
+    <span class="c1"># for pickle support.</span>
+
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hosting_costs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_hosting_cost</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_hosting_costs</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_default_hosting_cost</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_attr</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">state</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;AgentDef(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;AgentDef(</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">!=</span> <span class="n">AgentDef</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">hosting_costs</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">hosting_costs</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attr</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_attr</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_hosting_cost</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">default_hosting_cost</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="create_agents"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.create_agents">[docs]</a><span class="k">def</span> <span class="nf">create_agents</span><span class="p">(</span>
-    <span class="n">name_prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">indexes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Iterable</span><span class="p">]],</span>
-    <span class="n">default_route</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">routes</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">default_hosting_costs</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">hosting_costs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">separator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+        <span class="n">name_prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">indexes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Iterable</span><span class="p">]],</span>
+        <span class="n">default_route</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">routes</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">default_hosting_costs</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">hosting_costs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">separator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]],</span> <span class="n">AgentDef</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Mass creation of agents definitions.</span>
 
@@ -848,30 +972,47 @@
 <span class="sd">    ...                      default_route=2, default_hosting_costs=7)</span>
 <span class="sd">    &gt;&gt;&gt; assert isinstance(agts[&#39;a08&#39;], AgentDef)</span>
 
-<span class="sd">    When passing a tuple of iterables of indexes:</span>
-<span class="sd">    &gt;&gt;&gt; agts = create_agents(&#39;a&#39;, ([&#39;1&#39;, &#39;2&#39;, &#39;3&#39;], [&#39;x&#39;, &#39;y&#39;, &#39;z&#39;]), default_route=2, default_hosting_costs=7)</span>
-<span class="sd">    &gt;&gt;&gt; assert isinstance(agts[(&#39;1&#39;, &#39;z&#39;)], AgentDef)</span>
-<span class="sd">    &gt;&gt;&gt; assert isinstance(agts[(&#39;2&#39;, &#39;x&#39;)], AgentDef)</span>
-<span class="sd">    &gt;&gt;&gt; assert agts[(&#39;2&#39;, &#39;x&#39;)].name == &#39;a2_x&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-        <span class="n">indexes</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">indexes</span><span class="p">)</span>
+    <span class="n">agents</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: Dict[Union[str, Tuple[str, ...]], AgentDef]</span>
 
-    <span class="n">agts</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">separator</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">index</span> <span class="o">=</span> <span class="n">name_prefix</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
-        <span class="n">agts</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">AgentDef</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-            <span class="n">default_route</span><span class="o">=</span><span class="n">default_route</span><span class="p">,</span>
-            <span class="n">routes</span><span class="o">=</span><span class="n">routes</span><span class="p">,</span>
-            <span class="n">default_hosting_cost</span><span class="o">=</span><span class="n">default_hosting_costs</span><span class="p">,</span>
-            <span class="n">hosting_costs</span><span class="o">=</span><span class="n">hosting_costs</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">)</span>
-    <span class="k">return</span> <span class="n">agts</span></div>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">combi</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">indexes</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name_prefix</span> <span class="o">+</span> <span class="n">separator</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">combi</span><span class="p">)</span>
+            <span class="n">agents</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">combi</span><span class="p">)]</span> <span class="o">=</span> <span class="n">AgentDef</span><span class="p">(</span>
+                <span class="n">name</span><span class="p">,</span>
+                <span class="n">default_route</span><span class="o">=</span><span class="n">default_route</span><span class="p">,</span>
+                <span class="n">routes</span><span class="o">=</span><span class="n">routes</span><span class="p">,</span>
+                <span class="n">default_hosting_costs</span><span class="o">=</span><span class="n">default_hosting_costs</span><span class="p">,</span>
+                <span class="n">hosting_costs</span><span class="o">=</span><span class="n">hosting_costs</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="nb">range</span><span class="p">):</span>
+        <span class="n">digit_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">indexes</span><span class="o">.</span><span class="n">stop</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name_prefix</span><span class="si">}{</span><span class="n">i</span><span class="si">:</span><span class="s2">0</span><span class="si">{</span><span class="n">digit_count</span><span class="si">}</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">agents</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">AgentDef</span><span class="p">(</span>
+                <span class="n">name</span><span class="p">,</span>
+                <span class="n">default_route</span><span class="o">=</span><span class="n">default_route</span><span class="p">,</span>
+                <span class="n">routes</span><span class="o">=</span><span class="n">routes</span><span class="p">,</span>
+                <span class="n">default_hosting_costs</span><span class="o">=</span><span class="n">default_hosting_costs</span><span class="p">,</span>
+                <span class="n">hosting_costs</span><span class="o">=</span><span class="n">hosting_costs</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name_prefix</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">agents</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">AgentDef</span><span class="p">(</span>
+                <span class="n">name</span><span class="p">,</span>
+                <span class="n">default_route</span><span class="o">=</span><span class="n">default_route</span><span class="p">,</span>
+                <span class="n">routes</span><span class="o">=</span><span class="n">routes</span><span class="p">,</span>
+                <span class="n">default_hosting_costs</span><span class="o">=</span><span class="n">default_hosting_costs</span><span class="p">,</span>
+                <span class="n">hosting_costs</span><span class="o">=</span><span class="n">hosting_costs</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;indexes must be an iterable or a tuple of iterables&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">agents</span></div>
 </pre></div>
 
            </div>
