@@ -69,9 +69,11 @@
              
   <h1>Source code for pacman.dcop.objects</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Sized</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Sized</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span>
 
-<span class="kn">from</span> <span class="nn">pacman.utils.simple_repr</span> <span class="kn">import</span> <span class="n">SimpleRepr</span>
+<span class="kn">from</span> <span class="nn">pacman.utils.expressionfunction</span> <span class="kn">import</span> <span class="n">ExpressionFunction</span>
+<span class="kn">from</span> <span class="nn">pacman.utils.simple_repr</span> <span class="kn">import</span> <span class="n">SimpleRepr</span><span class="p">,</span> <span class="n">SimpleReprException</span>
 
 <span class="n">VariableName</span> <span class="o">=</span> <span class="nb">str</span>
 
@@ -226,6 +228,10 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2"> is not in the domain </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
 
 
+<span class="n">VariableDomain</span> <span class="o">=</span> <span class="n">Domain</span>
+
+<span class="n">binary_domain</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="s2">&quot;binary&quot;</span><span class="p">,</span> <span class="s2">&quot;binary&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
 <div class="viewcode-block" id="Variable"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.Variable">[docs]</a><span class="k">class</span> <span class="nc">Variable</span><span class="p">(</span><span class="n">SimpleRepr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A DCOP variable.</span>
 
@@ -376,6 +382,263 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;indexes must be an iterable or range or tuple of iterables&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">variables</span></div>
+
+<div class="viewcode-block" id="VariableWithCostDict"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.VariableWithCostDict">[docs]</a><span class="k">class</span> <span class="nc">VariableWithCostDict</span><span class="p">(</span><span class="n">Variable</span><span class="p">):</span>
+    <span class="n">has_cost</span> <span class="o">=</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="VariableWithCostDict.__init__"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.VariableWithCostDict.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">domain</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VariableDomain</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span>
+            <span class="n">costs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+            <span class="n">initial_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param name: The name of the variable</span>
+<span class="sd">        :param domain: A VariableDomain object of a list</span>
+<span class="sd">        :param costs: a dict that associates a cost for each value in domain</span>
+<span class="sd">        :param initial_value: optional, if given must be in the domain</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">initial_value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_costs</span> <span class="o">=</span> <span class="n">costs</span></div>
+
+<div class="viewcode-block" id="VariableWithCostDict.cost_for_val"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.VariableWithCostDict.cost_for_val">[docs]</a>    <span class="k">def</span> <span class="nf">cost_for_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_costs</span><span class="p">[</span><span class="n">val</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.0</span></div>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;VariableWithCostDict(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;VariableWithCostDict&quot;</span> <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_costs</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">initial_value</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">domain</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_costs</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_costs</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__hash__</span><span class="p">()</span> <span class="o">^</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_costs</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+<div class="viewcode-block" id="VariableWithCostDict.clone"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.VariableWithCostDict.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">VariableWithCostDict</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_costs</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="VariableWithCostFunc"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.VariableWithCostFunc">[docs]</a><span class="k">class</span> <span class="nc">VariableWithCostFunc</span><span class="p">(</span><span class="n">Variable</span><span class="p">):</span>
+    <span class="n">has_cost</span> <span class="o">=</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="VariableWithCostFunc.__init__"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.VariableWithCostFunc.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">domain</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VariableDomain</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span>
+            <span class="n">cost_func</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">ExpressionFunction</span><span class="p">],</span>
+            <span class="n">initial_value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param name: The name of the variable</span>
+<span class="sd">        :param domain: A VariableDomain object of a list</span>
+<span class="sd">        :param cost_func: a function that returns a cost for each value in the</span>
+<span class="sd">        domain.</span>
+<span class="sd">        :param initial_value: optional, if given must be in the domain</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">initial_value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">cost_func</span><span class="p">,</span> <span class="s2">&quot;variable_names&quot;</span><span class="p">):</span>
+            <span class="c1"># Specific corner case when using an ExpressionFunction as a</span>
+            <span class="c1"># cost_func: check arguments</span>
+            <span class="k">if</span> <span class="p">(</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="n">cost_func</span><span class="o">.</span><span class="n">variable_names</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span>
+                    <span class="ow">or</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cost_func</span><span class="o">.</span><span class="n">variable_names</span>
+            <span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Cost function for var </span><span class="si">{}</span><span class="s2"> must have a single &quot;</span>
+                    <span class="s2">&quot;variable, which must be the same as &quot;</span>
+                    <span class="s1">&#39;the variable : &quot;</span><span class="si">{}</span><span class="s1"> != </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">cost_func</span><span class="o">.</span><span class="n">variable_names</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cost_func</span> <span class="o">=</span> <span class="n">cost_func</span></div>
+
+<div class="viewcode-block" id="VariableWithCostFunc.cost_for_val"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.VariableWithCostFunc.cost_for_val">[docs]</a>    <span class="k">def</span> <span class="nf">cost_for_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cost_func</span><span class="p">,</span> <span class="s2">&quot;variable_names&quot;</span><span class="p">):</span>
+            <span class="c1"># for function that need keyword arg, like ExpressionFunction</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cost_func</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">val</span><span class="p">})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cost_func</span><span class="p">(</span><span class="n">val</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;VariableWithCostFunc(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;VariableWithCostFunc&quot;</span> <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cost_func</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">initial_value</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">domain</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cost_for_val</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">]</span> <span class="o">==</span> <span class="p">[</span>
+                <span class="n">other</span><span class="o">.</span><span class="n">cost_for_val</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">domain</span>
+            <span class="p">]:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">costs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cost_for_val</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__hash__</span><span class="p">()</span> <span class="o">^</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">costs</span><span class="p">))</span>
+
+<div class="viewcode-block" id="VariableWithCostFunc.clone"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.VariableWithCostFunc.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">VariableWithCostFunc</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cost_func</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_initial_value</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_simple_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cost_func</span><span class="p">,</span> <span class="s2">&quot;_simple_repr&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">SimpleReprException</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot take a simple repr from a &quot;</span>
+                <span class="s2">&quot;variable with arbitrary cost function, &quot;</span>
+                <span class="s2">&quot;use an ExpressionFunction instead&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_simple_repr</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="VariableNoisyCostFunc"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.VariableNoisyCostFunc">[docs]</a><span class="k">class</span> <span class="nc">VariableNoisyCostFunc</span><span class="p">(</span><span class="n">VariableWithCostFunc</span><span class="p">):</span>
+    <span class="n">has_cost</span> <span class="o">=</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="VariableNoisyCostFunc.__init__"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.VariableNoisyCostFunc.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">domain</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VariableDomain</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span>
+            <span class="n">cost_func</span><span class="p">,</span>
+            <span class="n">initial_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">noise_level</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.02</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param cost_func: a function that returns a cost for each value in the</span>
+<span class="sd">        domain.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">cost_func</span><span class="p">,</span> <span class="n">initial_value</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_noise_level</span> <span class="o">=</span> <span class="n">noise_level</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_costs</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: Dict[Any, float]</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">domain</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_costs</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">cost_for_val</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">noise_level</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">noise_level</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_noise_level</span>
+
+<div class="viewcode-block" id="VariableNoisyCostFunc.cost_for_val"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.VariableNoisyCostFunc.cost_for_val">[docs]</a>    <span class="k">def</span> <span class="nf">cost_for_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_costs</span><span class="p">[</span><span class="n">val</span><span class="p">]</span></div>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;VariableNoisyCostFunc(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;VariableNoisyCostFunc&quot;</span> <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cost_func</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_noise_level</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_level</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">noise_level</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">domain</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cost_func</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_cost_func</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">initial_value</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># hash on costs without noise</span>
+        <span class="n">costs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">VariableNoisyCostFunc</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">cost_for_val</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">Variable</span><span class="o">.</span><span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">^</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">costs</span><span class="p">))</span>
+
+<div class="viewcode-block" id="VariableNoisyCostFunc.clone"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.VariableNoisyCostFunc.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">VariableNoisyCostFunc</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cost_func</span><span class="p">,</span>
+            <span class="n">initial_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_value</span><span class="p">,</span>
+            <span class="n">noise_level</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_noise_level</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="ExternalVariable"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.ExternalVariable">[docs]</a><span class="k">class</span> <span class="nc">ExternalVariable</span><span class="p">(</span><span class="n">Variable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An external is a variable that is not subject to optimization: its value</span>
+<span class="sd">    cannot be changed by DCOP algorithms, which only use it as an input,</span>
+<span class="sd">    read-only, parameter.</span>
+<span class="sd">    The value of an external variable can still change for external reasons,</span>
+<span class="sd">    in that case computation(s) should adapt to the change when appropriate.</span>
+<span class="sd">    One can be notified of such change by subscribing to the ExternalVariable.</span>
+
+<span class="sd">    External variable can be used to represent the value from a sensor for</span>
+<span class="sd">    example. : it can actually be changed to match the value read from a real</span>
+<span class="sd">    sensor or manually by the user (when using a simulator).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ExternalVariable.__init__"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.ExternalVariable.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">VariableDomain</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cb</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[Callable[[Any], Any]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">domain</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
+
+    <span class="nd">@value</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Invalid value </span><span class="si">{}</span><span class="s2"> for sensor variable </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fire</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ExternalVariable.subscribe"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.ExternalVariable.subscribe">[docs]</a>    <span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cb</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">callback</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExternalVariable.unsubscribe"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.ExternalVariable.unsubscribe">[docs]</a>    <span class="k">def</span> <span class="nf">unsubscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cb</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">callback</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_fire</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cb</span><span class="p">:</span>
+            <span class="n">cb</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ExternalVariable.clone"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.ExternalVariable.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ExternalVariable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="AgentDef"><a class="viewcode-back" href="../../../modules/pacman.dcop.html#pacman.dcop.objects.AgentDef">[docs]</a><span class="k">class</span> <span class="nc">AgentDef</span><span class="p">(</span><span class="n">SimpleRepr</span><span class="p">):</span>
