@@ -1,7 +1,9 @@
 import itertools
-from typing import Any, Dict, Iterable, Sized, Tuple, Union
+import random
+from typing import Any, Dict, Iterable, Sized, Tuple, Union, Callable, List
 
-from pacman.utils.simple_repr import SimpleRepr
+from pacman.utils.expressionfunction import ExpressionFunction
+from pacman.utils.simple_repr import SimpleRepr, SimpleReprException
 
 VariableName = str
 
@@ -156,6 +158,10 @@ class Domain(Sized, SimpleRepr, Iterable[Any]):
         raise ValueError(f"{val} is not in the domain {self._name}")
 
 
+VariableDomain = Domain
+
+binary_domain = Domain("binary", "binary", [0, 1])
+
 class Variable(SimpleRepr):
     """A DCOP variable.
 
@@ -306,6 +312,263 @@ def create_variables(
     else:
         raise TypeError("indexes must be an iterable or range or tuple of iterables")
     return variables
+
+class VariableWithCostDict(Variable):
+    has_cost = True
+
+    def __init__(
+            self,
+            name: str,
+            domain: Union[VariableDomain, Iterable[Any]],
+            costs: Dict[Any, float],
+            initial_value=None,
+    ) -> None:
+        """
+        :param name: The name of the variable
+        :param domain: A VariableDomain object of a list
+        :param costs: a dict that associates a cost for each value in domain
+        :param initial_value: optional, if given must be in the domain
+        """
+        super().__init__(name, domain, initial_value)
+        self._costs = costs
+
+    def cost_for_val(self, val) -> float:
+        try:
+            return self._costs[val]
+        except KeyError:
+            return 0.0
+
+    def __str__(self):
+        return "VariableWithCostDict({})".format(self.name)
+
+    def __repr__(self):
+        return "VariableWithCostDict" "({}, {}, {}, {})".format(
+            self.name, self.initial_value, self.domain, self._costs
+        )
+
+    def __eq__(self, other):
+        if type(self) != type(other):
+            return False
+        if (
+                self.name == other.name
+                and self.initial_value == other.initial_value
+                and self.domain == other.domain
+                and self._costs == other._costs
+        ):
+            return True
+        return False
+
+    def __hash__(self):
+        return super().__hash__() ^ hash(tuple(self._costs.values()))
+
+    def clone(self):
+        return VariableWithCostDict(
+            self.name, self.domain, self._costs, initial_value=self.initial_value
+        )
+
+
+class VariableWithCostFunc(Variable):
+    has_cost = True
+
+    def __init__(
+            self,
+            name: str,
+            domain: Union[VariableDomain, Iterable[Any]],
+            cost_func: Union[Callable[..., float], ExpressionFunction],
+            initial_value: Any = None,
+    ) -> None:
+        """
+        :param name: The name of the variable
+        :param domain: A VariableDomain object of a list
+        :param cost_func: a function that returns a cost for each value in the
+        domain.
+        :param initial_value: optional, if given must be in the domain
+        """
+        super().__init__(name, domain, initial_value)
+        if hasattr(cost_func, "variable_names"):
+            # Specific corner case when using an ExpressionFunction as a
+            # cost_func: check arguments
+            if (
+                    len(cost_func.variable_names) != 1
+                    or name not in cost_func.variable_names
+            ):
+                raise ValueError(
+                    "Cost function for var {} must have a single "
+                    "variable, which must be the same as "
+                    'the variable : "{} != {}'.format(
+                        name, name, cost_func.variable_names
+                    )
+                )
+        self._cost_func = cost_func
+
+    def cost_for_val(self, val) -> float:
+        if hasattr(self._cost_func, "variable_names"):
+            # for function that need keyword arg, like ExpressionFunction
+            return self._cost_func(**{self.name: val})
+        else:
+            return self._cost_func(val)
+
+    def __str__(self):
+        return "VariableWithCostFunc({})".format(self.name)
+
+    def __repr__(self):
+        return "VariableWithCostFunc" "({}, {}, {}, {})".format(
+            self.name, self.initial_value, self.domain, self._cost_func
+        )
+
+    def __eq__(self, other):
+        if type(self) != type(other):
+            return False
+        if (
+                self.name == other.name
+                and self.initial_value == other.initial_value
+                and self.domain == other.domain
+        ):
+            if [self.cost_for_val(v) for v in self.domain] == [
+                other.cost_for_val(v) for v in other.domain
+            ]:
+                return True
+        return False
+
+    def __hash__(self):
+        costs = [self.cost_for_val(v) for v in self.domain]
+        return super().__hash__() ^ hash(tuple(costs))
+
+    def clone(self):
+        return VariableWithCostFunc(
+            self.name, self.domain, self._cost_func, initial_value=self._initial_value
+        )
+
+    def _simple_repr(self):
+        if not hasattr(self._cost_func, "_simple_repr"):
+            raise SimpleReprException(
+                "Cannot take a simple repr from a "
+                "variable with arbitrary cost function, "
+                "use an ExpressionFunction instead"
+            )
+        else:
+            return super()._simple_repr()
+
+
+class VariableNoisyCostFunc(VariableWithCostFunc):
+    has_cost = True
+
+    def __init__(
+            self,
+            name: str,
+            domain: Union[VariableDomain, Iterable[Any]],
+            cost_func,
+            initial_value=None,
+            noise_level: float = 0.02,
+    ) -> None:
+        """
+        :param cost_func: a function that returns a cost for each value in the
+        domain.
+        """
+        super().__init__(name, domain, cost_func, initial_value)
+
+        self._noise_level = noise_level
+        self._costs = {}  # type: Dict[Any, float]
+        for d in domain:
+            self._costs[d] = super().cost_for_val(d) + random.uniform(0, noise_level)
+
+    @property
+    def noise_level(self) -> float:
+        return self._noise_level
+
+    def cost_for_val(self, val) -> float:
+        return self._costs[val]
+
+    def __str__(self):
+        return "VariableNoisyCostFunc({})".format(self.name)
+
+    def __repr__(self):
+        return "VariableNoisyCostFunc" "({}, {}, {}, {}, {})".format(
+            self.name,
+            self.initial_value,
+            self.domain,
+            self._cost_func,
+            self._noise_level,
+        )
+
+    def __eq__(self, other):
+        if type(self) != type(other):
+            return False
+        if (
+                self.name == other.name
+                and self.noise_level == other.noise_level
+                and self.domain == other.domain
+                and self._cost_func == other._cost_func
+                and self.initial_value == other.initial_value
+        ):
+            return True
+        return False
+
+    def __hash__(self):
+        # hash on costs without noise
+        costs = [
+            super(VariableNoisyCostFunc, self).cost_for_val(d) for d in self.domain
+        ]
+        return Variable.__hash__(self) ^ hash(tuple(costs))
+
+    def clone(self):
+        return VariableNoisyCostFunc(
+            self.name,
+            self.domain,
+            self._cost_func,
+            initial_value=self.initial_value,
+            noise_level=self._noise_level,
+        )
+
+class ExternalVariable(Variable):
+    """
+    An external is a variable that is not subject to optimization: its value
+    cannot be changed by DCOP algorithms, which only use it as an input,
+    read-only, parameter.
+    The value of an external variable can still change for external reasons,
+    in that case computation(s) should adapt to the change when appropriate.
+    One can be notified of such change by subscribing to the ExternalVariable.
+
+    External variable can be used to represent the value from a sensor for
+    example. : it can actually be changed to match the value read from a real
+    sensor or manually by the user (when using a simulator).
+    """
+
+    def __init__(
+            self, name: str, domain: Union[VariableDomain, Iterable[Any]], value=None
+    ) -> None:
+        super().__init__(name, domain)
+        self._cb = []  # type: List[Callable[[Any], Any]]
+        self._value = list(domain.values)[0]
+        self.value = value
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, val):
+        if val == self._value:
+            return
+        if val not in self._domain:
+            raise ValueError(
+                "Invalid value {} for sensor variable {}".format(val, self._name)
+            )
+        self._value = val
+        self._fire(val)
+
+    def subscribe(self, callback):
+        self._cb.append(callback)
+
+    def unsubscribe(self, callback):
+        self._cb.remove(callback)
+
+    def _fire(self, value):
+        for cb in self._cb:
+            cb(value)
+
+    def clone(self):
+        return ExternalVariable(self.name, self.domain, self.value)
 
 
 class AgentDef(SimpleRepr):
