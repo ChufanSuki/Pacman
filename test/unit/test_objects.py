@@ -184,4 +184,4 @@ class TestCreateAgents:
         agents = create_agents("a", (["a1", "a2", "a3"], ["b1", "b2", "b3"]))
         assert ("a1", "b2") in agents
         assert isinstance(agents[("a1", "b2")], AgentDef)
-        assert agents[("a1", "b2")].name == "a1_b2"
+        assert agents[("a1", "b2")].name == "aa1_b2"

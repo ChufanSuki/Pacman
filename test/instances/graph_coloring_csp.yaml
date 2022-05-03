@@ -1,5 +1,6 @@
 name: graph coloring
 objective: min
+description: This instance is meant as a pure satisfaction problem (and not optimization)
 
 domains:
   colors:
@@ -9,21 +10,18 @@ domains:
 variables:
   v1:
     domain: colors
-    cost_function: -0.1 if v1 == 'R' else 0.1
   v2:
     domain: colors
-    cost_function: -0.1 if v2 == 'G' else 0.1
   v3:
     domain: colors
-    cost_function: -0.1 if v3 == 'G' else 0.1
 
 constraints:
   diff_1_2: 
     type: intention
-    function: 1 if v1 == v2 else 0
+    function: 10000 if v1 == v2 else 0
   diff_2_3: 
     type: intention
-    function: 1 if v3 == v2 else 0
+    function: 10000 if v3 == v2 else 0
 
 agents:
   a1:

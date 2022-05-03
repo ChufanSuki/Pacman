@@ -9,13 +9,16 @@ domains:
 variables:
   v1:
     domain: colors
+    initial_value: G
     cost_function: -0.1 if v1 == 'R' else 0.1
   v2:
     domain: colors
+    initial_value: G
     cost_function: -0.1 if v2 == 'G' else 0.1
   v3:
     domain: colors
-    cost_function: -0.1 if v3 == 'G' else 0.1
+    initial_value: G
+    cost_function: -0.1 if v3 == 'R' else 0.1
 
 constraints:
   diff_1_2: 

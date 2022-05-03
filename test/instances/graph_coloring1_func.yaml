@@ -20,10 +20,15 @@ variables:
 constraints:
   diff_1_2: 
     type: intention
-    function: 1 if v1 == v2 else 0
+    function: |
+      if v1 == v2:
+          return 1
+      else:
+          return 0
   diff_2_3: 
     type: intention
-    function: 1 if v3 == v2 else 0
+    source: "./external_python_constraints.py"
+    function: source.diff_vars(v2, v3)
 
 agents:
   a1:

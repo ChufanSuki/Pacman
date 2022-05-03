@@ -162,7 +162,7 @@ def test_oneshot_delayed_action_on_computation():
             self.mock = MagicMock()
 
         def on_start(self):
-            self.handle = self.add_periodic_action(0.1, self.action)
+            self.add_periodic_action(0.1, self.action)
 
         def action(self):
             self.mock()
