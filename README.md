@@ -4,6 +4,8 @@
 ![CI](https://github.com/ChufanSuki/Pacman/actions/workflows/ci.yml/badge.svg)
 ![build](https://github.com/ChufanSuki/Pacman/actions/workflows/build.yml/badge.svg)
 ![pre-commit](https://github.com/ChufanSuki/Pacman/actions/workflows/pre-commit.yml/badge.svg)
+This project is only for education purpose and not for production.
+
 
 `python dcop_cli.py solve --algo dpop graph_coloring.yaml`
 
