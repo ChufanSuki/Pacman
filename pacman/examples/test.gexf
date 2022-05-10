@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='utf-8'?>
+<gexf xmlns="http://www.gexf.net/1.2draft" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.2draft http://www.gexf.net/1.2draft/gexf.xsd" version="1.2">
+  <meta lastmodifieddate="2022-05-06">
+    <creator>NetworkX 2.8</creator>
+  </meta>
+  <graph defaultedgetype="undirected" mode="static" name="">
+    <attributes mode="static" class="node">
+      <attribute id="0" title="s" type="string" />
+    </attributes>
+    <nodes>
+      <node id="l_k1" label="l_k1">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="l_k2" label="l_k2">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="l_k3" label="l_k3">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="l_lv1" label="l_lv1">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="l_lv2" label="l_lv2">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="l_lv3" label="l_lv3">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="l_tv1" label="l_tv1">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="l_tv2" label="l_tv2">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="l_tv3" label="l_tv3">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="l_d1" label="l_d1">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="l_d2" label="l_d2">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="l_e1" label="l_e1">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="l_e2" label="l_e2">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="mv_kitchen" label="mv_kitchen">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="mv_tv" label="mv_tv">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="mv_livingroom" label="mv_livingroom">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="mv_desk" label="mv_desk">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="mv_entry" label="mv_entry">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="mv_stairs" label="mv_stairs">
+        <attvalues>
+          <attvalue for="0" value="o" />
+        </attvalues>
+      </node>
+      <node id="mc_kitchen" label="mc_kitchen">
+        <attvalues>
+          <attvalue for="0" value="^" />
+        </attvalues>
+      </node>
+      <node id="mc_tv" label="mc_tv">
+        <attvalues>
+          <attvalue for="0" value="^" />
+        </attvalues>
+      </node>
+      <node id="mc_livingroom" label="mc_livingroom">
+        <attvalues>
+          <attvalue for="0" value="^" />
+        </attvalues>
+      </node>
+      <node id="mc_desk" label="mc_desk">
+        <attvalues>
+          <attvalue for="0" value="^" />
+        </attvalues>
+      </node>
+      <node id="mc_entry" label="mc_entry">
+        <attvalues>
+          <attvalue for="0" value="^" />
+        </attvalues>
+      </node>
+      <node id="mc_stairs" label="mc_stairs">
+        <attvalues>
+          <attvalue for="0" value="^" />
+        </attvalues>
+      </node>
+      <node id="r_lunch" label="r_lunch">
+        <attvalues>
+          <attvalue for="0" value="^" />
+        </attvalues>
+      </node>
+      <node id="r_homecinema" label="r_homecinema">
+        <attvalues>
+          <attvalue for="0" value="^" />
+        </attvalues>
+      </node>
+      <node id="r_work" label="r_work">
+        <attvalues>
+          <attvalue for="0" value="^" />
+        </attvalues>
+      </node>
+      <node id="r_cooking" label="r_cooking">
+        <attvalues>
+          <attvalue for="0" value="^" />
+        </attvalues>
+      </node>
+      <node id="r_entry" label="r_entry">
+        <attvalues>
+          <attvalue for="0" value="^" />
+        </attvalues>
+      </node>
+    </nodes>
+    <edges>
+      <edge source="l_k1" target="mc_tv" id="0" />
+      <edge source="l_k1" target="mc_kitchen" id="1" />
+      <edge source="l_k1" target="mc_livingroom" id="2" />
+      <edge source="l_k2" target="mc_kitchen" id="3" />
+      <edge source="l_k3" target="mc_kitchen" id="4" />
+      <edge source="l_lv1" target="mc_livingroom" id="5" />
+      <edge source="l_lv2" target="mc_livingroom" id="6" />
+      <edge source="l_lv2" target="mc_kitchen" id="7" />
+      <edge source="l_lv2" target="mc_tv" id="8" />
+      <edge source="l_lv3" target="mc_desk" id="9" />
+      <edge source="l_lv3" target="mc_livingroom" id="10" />
+      <edge source="l_tv1" target="mc_tv" id="11" />
+      <edge source="l_tv2" target="mc_tv" id="12" />
+      <edge source="l_tv3" target="mc_kitchen" id="13" />
+      <edge source="l_tv3" target="mc_tv" id="14" />
+      <edge source="l_d1" target="mc_livingroom" id="15" />
+      <edge source="l_d1" target="mc_desk" id="16" />
+      <edge source="l_d2" target="mc_desk" id="17" />
+      <edge source="l_e1" target="mc_entry" id="18" />
+      <edge source="l_e1" target="mc_stairs" id="19" />
+      <edge source="l_e2" target="mc_entry" id="20" />
+      <edge source="l_e2" target="mc_stairs" id="21" />
+      <edge source="mv_kitchen" target="r_cooking" id="22" />
+      <edge source="mv_kitchen" target="r_lunch" id="23" />
+      <edge source="mv_kitchen" target="mc_kitchen" id="24" />
+      <edge source="mv_kitchen" target="r_homecinema" id="25" />
+      <edge source="mv_tv" target="r_homecinema" id="26" />
+      <edge source="mv_tv" target="mc_tv" id="27" />
+      <edge source="mv_livingroom" target="mc_livingroom" id="28" />
+      <edge source="mv_livingroom" target="r_lunch" id="29" />
+      <edge source="mv_desk" target="r_work" id="30" />
+      <edge source="mv_desk" target="mc_desk" id="31" />
+      <edge source="mv_entry" target="r_entry" id="32" />
+      <edge source="mv_entry" target="mc_entry" id="33" />
+      <edge source="mv_stairs" target="mc_stairs" id="34" />
+    </edges>
+  </graph>
+</gexf>

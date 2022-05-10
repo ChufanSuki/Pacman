@@ -394,7 +394,15 @@ class DfsTreeDpopTests(unittest.TestCase):
     def test_4nodes(self):
         # Graph with 4 nodes, one cycle
         #
-        #       x1---X3
+        #       x1---X3dcop = DCOP('test', 'min')
+        d1 = VariableDomain('d1', '--', [1, 2, 3])
+        v1 = Variable('v1', d1)
+        v2 = Variable('v2', d1)
+        c1 = relation_from_str('c1', '0.5 * v1 + v2', [v1, v2])
+
+        dcop.add_constraint(c1)
+
+        g = build_computation_graph(dcop)
         #        \  /
         #         x2---x4
 

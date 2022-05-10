@@ -186,7 +186,7 @@ class ComputationsFactorGraph(ComputationGraph):
     * variables nodes
     * factor nodes
 
-    Edges can only exists between a factor node and a variable node.
+    Edges can only exist between a factor node and a variable node.
 
     """
 

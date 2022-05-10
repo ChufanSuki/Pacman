@@ -1,0 +1,78 @@
+{
+  "agt_metrics": {
+    "a1": {
+      "activity_ratio": 0.16145185008759078,
+      "count_ext_msg": {
+        "_discovery_a1": 6,
+        "v2": 2
+      },
+      "cycles": {
+        "v2": 0
+      },
+      "size_ext_msg": {
+        "_discovery_a1": 0,
+        "v2": 4
+      }
+    },
+    "a2": {
+      "activity_ratio": 0.9082094972763435,
+      "count_ext_msg": {
+        "_discovery_a2": 5,
+        "v1": 1
+      },
+      "cycles": {
+        "v1": 0
+      },
+      "size_ext_msg": {
+        "_discovery_a2": 0,
+        "v1": 2
+      }
+    },
+    "a3": {
+      "activity_ratio": 0.87230693629226,
+      "count_ext_msg": {
+        "_discovery_a3": 5,
+        "v3": 1
+      },
+      "cycles": {
+        "v3": 0
+      },
+      "size_ext_msg": {
+        "_discovery_a3": 0,
+        "v3": 2
+      }
+    },
+    "a4": {
+      "activity_ratio": 0.0055982050985131085,
+      "count_ext_msg": {
+        "_discovery_a4": 3
+      },
+      "cycles": {},
+      "size_ext_msg": {
+        "_discovery_a4": 0
+      }
+    },
+    "a5": {
+      "activity_ratio": 0.006302856346088521,
+      "count_ext_msg": {
+        "_discovery_a5": 3
+      },
+      "cycles": {},
+      "size_ext_msg": {
+        "_discovery_a5": 0
+      }
+    }
+  },
+  "assignment": {
+    "v1": "R",
+    "v2": "G",
+    "v3": "R"
+  },
+  "cost": -0.1,
+  "cycle": 0,
+  "msg_count": 26,
+  "msg_size": 8,
+  "status": "FINISHED",
+  "time": 0.003987668082118034,
+  "violation": 0
+}

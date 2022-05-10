@@ -1,4 +1,3 @@
-
 """
 Pseudo tree computation graphs are DFS trees built from the constraint graph
 where pseudo-parent and pseudo-children links are added to the tree.
@@ -11,11 +10,14 @@ from typing import Iterable
 from collections import defaultdict
 from typing import List
 
-from pacman.computations_graph.objects import ComputationNode, ComputationGraph, Link
+from pacman.computations_graph.objects import ComputationNode, ComputationGraph, \
+    Link
 from pacman.dcop.objects import Variable
 from pacman.dcop.dcop import DCOP
 from pacman.dcop.relations import RelationProtocol, Constraint
 from pacman.utils.simple_repr import from_repr, simple_repr
+
+import networkx as nx
 
 
 class PseudoTreeLink(Link):
@@ -42,7 +44,8 @@ class PseudoTreeLink(Link):
             The target of the link, it must be the name of a PseudoTreeNode
             in the graph.
         """
-        if link_type not in ["children", "pseudo_children", "pseudo_parent", "parent"]:
+        if link_type not in ["children", "pseudo_children", "pseudo_parent",
+                             "parent"]:
             raise ValueError(
                 "Invalid link type in pseudo-tree "
                 'graph: {}. Supported types are "children",'
@@ -86,7 +89,8 @@ class PseudoTreeLink(Link):
 
     @classmethod
     def _from_repr(cls, r):
-        return PseudoTreeLink(r["type"], from_repr(r["source"]), from_repr(r["target"]))
+        return PseudoTreeLink(r["type"], from_repr(r["source"]),
+                              from_repr(r["target"]))
 
 
 class PseudoTreeNode(ComputationNode):
@@ -109,11 +113,11 @@ class PseudoTreeNode(ComputationNode):
     """
 
     def __init__(
-        self,
-        variable: Variable,
-        constraints: Iterable[Constraint],
-        links: Iterable[PseudoTreeLink],
-        name: str = None,
+            self,
+            variable: Variable,
+            constraints: Iterable[Constraint],
+            links: Iterable[PseudoTreeLink],
+            name: str = None,
     ) -> None:
         name = name if name is not None else variable.name
         super().__init__(name, "PseudoTreeComputation", links=links)
@@ -360,7 +364,7 @@ def tree_str_desc(root, indent_num=0):
     pp = ", ".join([p.variable.name for p in root.pseudo_parents])
     pc = ", ".join([c.variable.name for c in root.pseudo_children])
     desc += (
-        indent + "* " + root.variable.name + " - PP : [" + pp + "] - PC: [" + pc + "]\n"
+            indent + "* " + root.variable.name + " - PP : [" + pp + "] - PC: [" + pc + "]\n"
     )
     for n in root.children:
         desc += tree_str_desc(n, indent_num=(indent_num + 2))
@@ -389,7 +393,8 @@ class ComputationPseudoTree(ComputationGraph):
                         PseudoTreeLink("parent", n.name, n.parent.name)
                     )
                 for c in n.children:
-                    links[n.name].append(PseudoTreeLink("children", n.name, c.name))
+                    links[n.name].append(
+                        PseudoTreeLink("children", n.name, c.name))
                 for c in n.pseudo_children:
                     links[n.name].append(
                         PseudoTreeLink("pseudo_children", n.name, c.name)
@@ -398,9 +403,9 @@ class ComputationPseudoTree(ComputationGraph):
                     links[n.name].append(
                         PseudoTreeLink("pseudo_parent", n.name, c.name)
                     )
-
             for n in _visit_tree(root):
-                _nodes[n.name] = PseudoTreeNode(n.variable, n.relations, links[n.name])
+                _nodes[n.name] = PseudoTreeNode(n.variable, n.relations,
+                                                links[n.name])
 
         self.nodes = list(_nodes.values())
 
@@ -415,14 +420,14 @@ class ComputationPseudoTree(ComputationGraph):
         return e / (v * (v - 1))
 
     def __str__(self):
-        return f"PseudoTree nodes={ [n.name for n in self.nodes]} " \
+        return f"PseudoTree nodes={[n.name for n in self.nodes]} " \
                f"links={[l for l in self.links]}"
 
 
 def _filter_relation_to_lowest_node(dfs_root):
     """"
     Filter the relations on all the nodes of the DFS tree to only keep the
-    relation on the on the lowest node in the tree that is involved in the
+    relation on the lowest node in the tree that is involved in the
     relation.
 
     """
@@ -440,9 +445,9 @@ def _filter_relation_to_lowest_node(dfs_root):
 
 
 def build_computation_graph(
-    dcop: DCOP,
-    variables: Iterable[Variable] = None,
-    constraints: Iterable[Constraint] = None,
+        dcop: DCOP,
+        variables: Iterable[Variable] = None,
+        constraints: Iterable[Constraint] = None,
 ) -> ComputationPseudoTree:
     """
     Build a computation pseudo-tree graph for the DCOP.
@@ -507,3 +512,41 @@ def build_computation_graph(
             variables.remove(node.variable)
 
     return ComputationPseudoTree(roots)
+
+
+def as_networkx_graph(pseudotree: ComputationPseudoTree):
+    """
+    Build a networkx graph object from variables and relations.
+
+    Parameters
+    ----------
+    pseudotree
+
+    Returns
+    -------
+    a networkx graph object
+    """
+    graph = nx.DiGraph(type="pseudotree")
+    nodes = []
+    for node in pseudotree.nodes:
+        nodes.append(node.name)
+    # graph.add_nodes_from(pseudotree.nodes)
+    #
+    # for link in pseudotree.links:
+    #     u = _get_node_by_name(link.source, pseudotree.nodes)
+    #     v = _get_node_by_name(link.target, pseudotree.nodes)
+    #     graph.add_edge(u, v, type=link.type)
+    graph.add_nodes_from(nodes)
+
+    for link in pseudotree.links:
+        graph.add_edge(link.source, link.target, type=link.type)
+
+    # One node for each variables
+    return graph
+
+#
+# def _get_node_by_name(name: str, nodes: PseudoTreeNode) -> \
+#         PseudoTreeNode:
+#     for node in nodes:
+#         if node.name == name:
+#             return node

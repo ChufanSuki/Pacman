@@ -24,6 +24,7 @@ class UiServer(MessagePassingComputation):
         self.port = port
         self.logger = logging.getLogger('pacman.agent.ui.'+agent.name)
         self.server = WebsocketServer(self.port, host='0.0.0.0')
+        # self.server = WebsocketServer(self.port)
         self.server.set_fn_new_client(self._new_client)
         self.server.set_fn_client_left(self._client_left)
         self.server.set_fn_message_received(self._message_received)
