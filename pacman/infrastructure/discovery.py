@@ -677,7 +677,7 @@ class Discovery(object):
         """
         Set the address of the directory to be used by this Discovery instance.
 
-        This mus be called before starting the agent holding this discovery
+        This must be called before starting the agent holding this discovery
         instance.
 
         Parameters
@@ -739,7 +739,7 @@ class Discovery(object):
     def register_agent(self, agent: AgentName, address: Address,
                        publish: bool=True):
         """
-        Registers a an agent.
+        Registers an agent.
 
         Callback for this agent are fired, if any.
 

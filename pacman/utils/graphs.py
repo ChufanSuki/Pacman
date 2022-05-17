@@ -1,9 +1,9 @@
-import random
 
+import random
 import networkx as nx
 
 
-class Node:
+class Node(object):
     """
     A generic Node for a bipartite graph
     """
@@ -11,7 +11,7 @@ class Node:
     def __init__(self, content, node_type=None):
         """
 
-        :param node_type: Type of node (for bipartite nodes)
+        :param node_type: Type of node (for bi partite nodes)
         :param content: the content object must have a name property that
         will be used as the node name (and id, which means that in a graph
         all names must be different)
@@ -20,29 +20,15 @@ class Node:
         self.type = node_type
         self.neighbors = []
 
-    def __hash__(self):
-        return hash((self.content.name, self.type))
-
-    def __eq__(self, other):
-        if type(other) != Node:
-            return False
-        if self.type == other.type and self.content == other.content and \
-                self.neighbors == other.neighbors:
-            return True
-        return False
-
-
     @property
     def name(self):
         return self.content.name
 
     def add_neighbors(self, node, directed=False):
-        if node.type is not None and self.type is not None and self.type == \
-                node.type:
+        if node.type is not None and self.type == node.type:
             raise ValueError(
-                "Cannot add a neighbor of the same type in a bipartie graph: {} - {}".format(
-                    node, self
-                )
+                "In a bipartite graph two nodes with the same "
+                "type cannot be connected : {} - {}".format(node, self)
             )
         self.neighbors.append(node)
         if not directed:
@@ -119,7 +105,7 @@ def as_networkx_graph(variables, relations):
     Parameters
     ----------
     variables: list
-        a list of Variable objects
+        a list of Variable objets
     relations: list
         a list of Relation objects
 
@@ -145,7 +131,7 @@ def as_networkx_bipartite_graph(variables, relations):
     Parameters
     ----------
     variables: list
-        a list of Variable objects
+        a list of Variable objets
     relations: list
         a list of Relation objects
 
@@ -174,7 +160,7 @@ def display_graph(variables, relations):
     ----------
 
     variables: list
-        a list of Variable objects
+        a list of Variable objets
     relations: list
         a list of Relation objects
     """
@@ -201,7 +187,7 @@ def display_bipartite_graph(variables, relations):
     Parameters
     ----------
     variables: list
-        a list of Variable objects
+        a list of Variable objets
     relations: list
         a list of Relation objects
     """
@@ -212,12 +198,12 @@ def display_bipartite_graph(variables, relations):
         import matplotlib.pyplot as plt
 
         pos = nx.drawing.spring_layout(graph)
-        variables = {n for n, d in graph.nodes(data=True) if d["bipartite"] == 0}
+        variables = set(n for n, d in graph.nodes(data=True) if d["bipartite"] == 0)
         factors = set(graph) - variables
         nx.draw_networkx_nodes(
             graph,
             pos=pos,
-            with_labels=True,
+            # with_labels=True,
             nodelist=variables,
             node_shape="o",
             node_color="b",
@@ -227,7 +213,7 @@ def display_bipartite_graph(variables, relations):
         nx.draw_networkx_nodes(
             graph,
             pos=pos,
-            with_labels=True,
+            # with_labels=True,
             nodelist=factors,
             node_shape="s",
             node_color="r",
@@ -255,7 +241,7 @@ def graph_diameter(variables, relations):
     """
     Compute the graph diameter(s).
     If the graph contains several independent sub graph, returns a list the
-    diameter of each of the subgraphs.
+    diamater of each of the subgraphs.
 
     :param variables:
     :param relations:
@@ -263,7 +249,7 @@ def graph_diameter(variables, relations):
     """
     diams = []
     g = as_networkx_graph(variables, relations)
-    components = (g.subgraph(c).copy() for c in nx.connected_components(g))
+    components  = (g.subgraph(c).copy() for c in nx.connected_components(g))
     for c in components:
         diams.append(nx.diameter(c))
 

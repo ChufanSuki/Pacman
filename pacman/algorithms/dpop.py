@@ -151,8 +151,7 @@ class DpopAlgo(VariableComputation):
         self._parent, self._pseudo_parents, self._children, self._pseudo_children = get_dfs_relations(
             self.computation_def.node
         )
-
-        # Filter the relations on all the nodes of the DFS tree to only keep the
+      # Filter the relations on all the nodes of the DFS tree to only keep the
         # relation on the on the lowest node in the tree that is involved in the
         # relation.
         self._constraints = []
@@ -220,7 +219,7 @@ class DpopAlgo(VariableComputation):
             self.post_msg(self._parent, msg)
 
         elif self.is_leaf:
-            # we are both root and leaf : means we are a isolated variable we
+            # we are both root and leaf : means we are an isolated variable we
             #  can select our own value alone:
             if self._constraints:
                 for r in self._constraints:

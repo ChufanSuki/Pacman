@@ -13,6 +13,8 @@ This project is only for education purpose and not for production.
 
 `python dcop_cli.py  --output results.json solve --algo dpop graph_coloring.yaml`
 
+`python dcop_cli.py graph --graph factor_graph --display graph_coloring.yaml`
+
 ```shell
 python dcop_cli.py solve --algo mgm --algo_params stop_cycle:20 \
 --collect_on cycle_change --run_metric ./metrics.csv \
