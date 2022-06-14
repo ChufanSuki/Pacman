@@ -14,6 +14,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -85,16 +86,16 @@
            <div itemprop="articleBody">
              
   <section id="pacman-dcop-package">
-<h1>pacman.dcop package<a class="headerlink" href="#pacman-dcop-package" title="Permalink to this headline"></a></h1>
+<h1>pacman.dcop package<a class="headerlink" href="#pacman-dcop-package" title="Permalink to this heading"></a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
 <section id="module-pacman.dcop.objects">
-<span id="pacman-dcop-objects-module"></span><h2>pacman.dcop.objects module<a class="headerlink" href="#module-pacman.dcop.objects" title="Permalink to this headline"></a></h2>
+<span id="pacman-dcop-objects-module"></span><h2>pacman.dcop.objects module<a class="headerlink" href="#module-pacman.dcop.objects" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pacman.dcop.objects.AgentDef">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.dcop.objects.</span></span><span class="sig-name descname"><span class="pre">AgentDef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_route</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">routes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_hosting_cost</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hosting_costs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#AgentDef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.AgentDef" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="pacman.utils.html#pacman.utils.simple_repr.SimpleRepr" title="pacman.utils.simple_repr.SimpleRepr"><code class="xref py py-class docutils literal notranslate"><span class="pre">pacman.utils.simple_repr.SimpleRepr</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="pacman.utils.html#pacman.utils.simple_repr.SimpleRepr" title="pacman.utils.simple_repr.SimpleRepr"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleRepr</span></code></a></p>
 <p>Definition of an agent.</p>
 <p>AgentDef objects are used when only the definition of the agent is needed,
 and not the actual running agents. This is for example the case when
@@ -273,7 +274,7 @@ like the capacity.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pacman.dcop.objects.BinaryVariable">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.dcop.objects.</span></span><span class="sig-name descname"><span class="pre">BinaryVariable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#BinaryVariable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.BinaryVariable" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pacman.dcop.objects.Variable" title="pacman.dcop.objects.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">pacman.dcop.objects.Variable</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#pacman.dcop.objects.Variable" title="pacman.dcop.objects.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pacman.dcop.objects.BinaryVariable.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#BinaryVariable.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.BinaryVariable.__init__" title="Permalink to this definition"></a></dt>
@@ -289,7 +290,7 @@ like the capacity.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pacman.dcop.objects.Domain">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.dcop.objects.</span></span><span class="sig-name descname"><span class="pre">Domain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#Domain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.Domain" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Sized</span></code>, <a class="reference internal" href="pacman.utils.html#pacman.utils.simple_repr.SimpleRepr" title="pacman.utils.simple_repr.SimpleRepr"><code class="xref py py-class docutils literal notranslate"><span class="pre">pacman.utils.simple_repr.SimpleRepr</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Sized</span></code>, <a class="reference internal" href="pacman.utils.html#pacman.utils.simple_repr.SimpleRepr" title="pacman.utils.simple_repr.SimpleRepr"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleRepr</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>]</p>
 <p>A VariableDomain indicates which are the valid values for variables with
 this domain. It also indicates the type of environment state represented
 by there variable : ‘luminosity’, humidity’, etc.</p>
@@ -383,7 +384,7 @@ domain and value the actual value that matches val.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pacman.dcop.objects.ExternalVariable">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.dcop.objects.</span></span><span class="sig-name descname"><span class="pre">ExternalVariable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#ExternalVariable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.ExternalVariable" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pacman.dcop.objects.Variable" title="pacman.dcop.objects.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">pacman.dcop.objects.Variable</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#pacman.dcop.objects.Variable" title="pacman.dcop.objects.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a></p>
 <p>An external is a variable that is not subject to optimization: its value
 cannot be changed by DCOP algorithms, which only use it as an input,
 read-only, parameter.
@@ -423,7 +424,7 @@ sensor or manually by the user (when using a simulator).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pacman.dcop.objects.Variable">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.dcop.objects.</span></span><span class="sig-name descname"><span class="pre">Variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#Variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.Variable" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="pacman.utils.html#pacman.utils.simple_repr.SimpleRepr" title="pacman.utils.simple_repr.SimpleRepr"><code class="xref py py-class docutils literal notranslate"><span class="pre">pacman.utils.simple_repr.SimpleRepr</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="pacman.utils.html#pacman.utils.simple_repr.SimpleRepr" title="pacman.utils.simple_repr.SimpleRepr"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleRepr</span></code></a></p>
 <p>A DCOP variable.</p>
 <p>This class represents the definition of a variable : a name, a domain
 where the variable can take it’s value and an optional initial value. It
@@ -462,7 +463,7 @@ the variable name: <cite>d_&lt;var_name&gt;</cite>.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pacman.dcop.objects.Variable.domain">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">domain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pacman.dcop.objects.Domain" title="pacman.dcop.objects.Domain"><span class="pre">pacman.dcop.objects.Domain</span></a></em><a class="headerlink" href="#pacman.dcop.objects.Variable.domain" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">domain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pacman.dcop.objects.Domain" title="pacman.dcop.objects.Domain"><span class="pre">Domain</span></a></em><a class="headerlink" href="#pacman.dcop.objects.Variable.domain" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#pacman.dcop.objects.Domain" title="pacman.dcop.objects.Domain"><code class="xref py py-class docutils literal notranslate"><span class="pre">Domain</span></code></a></p>
@@ -495,13 +496,13 @@ the variable name: <cite>d_&lt;var_name&gt;</cite>.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pacman.dcop.objects.VariableDomain">
 <span class="sig-prename descclassname"><span class="pre">pacman.dcop.objects.</span></span><span class="sig-name descname"><span class="pre">VariableDomain</span></span><a class="headerlink" href="#pacman.dcop.objects.VariableDomain" title="Permalink to this definition"></a></dt>
-<dd><p>alias of <a class="reference internal" href="#pacman.dcop.objects.Domain" title="pacman.dcop.objects.Domain"><code class="xref py py-class docutils literal notranslate"><span class="pre">pacman.dcop.objects.Domain</span></code></a></p>
+<dd><p>alias of <a class="reference internal" href="#pacman.dcop.objects.Domain" title="pacman.dcop.objects.Domain"><code class="xref py py-class docutils literal notranslate"><span class="pre">Domain</span></code></a></p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pacman.dcop.objects.VariableNoisyCostFunc">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.dcop.objects.</span></span><span class="sig-name descname"><span class="pre">VariableNoisyCostFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.02</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#VariableNoisyCostFunc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.VariableNoisyCostFunc" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pacman.dcop.objects.VariableWithCostFunc" title="pacman.dcop.objects.VariableWithCostFunc"><code class="xref py py-class docutils literal notranslate"><span class="pre">pacman.dcop.objects.VariableWithCostFunc</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#pacman.dcop.objects.VariableWithCostFunc" title="pacman.dcop.objects.VariableWithCostFunc"><code class="xref py py-class docutils literal notranslate"><span class="pre">VariableWithCostFunc</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pacman.dcop.objects.VariableNoisyCostFunc.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.02</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#VariableNoisyCostFunc.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.VariableNoisyCostFunc.__init__" title="Permalink to this definition"></a></dt>
@@ -548,7 +549,7 @@ the variable name: <cite>d_&lt;var_name&gt;</cite>.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pacman.dcop.objects.VariableWithCostDict">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.dcop.objects.</span></span><span class="sig-name descname"><span class="pre">VariableWithCostDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">costs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#VariableWithCostDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.VariableWithCostDict" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pacman.dcop.objects.Variable" title="pacman.dcop.objects.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">pacman.dcop.objects.Variable</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#pacman.dcop.objects.Variable" title="pacman.dcop.objects.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pacman.dcop.objects.VariableWithCostDict.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">costs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#VariableWithCostDict.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.VariableWithCostDict.__init__" title="Permalink to this definition"></a></dt>
@@ -589,7 +590,7 @@ the variable name: <cite>d_&lt;var_name&gt;</cite>.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pacman.dcop.objects.VariableWithCostFunc">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.dcop.objects.</span></span><span class="sig-name descname"><span class="pre">VariableWithCostFunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#VariableWithCostFunc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.VariableWithCostFunc" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pacman.dcop.objects.Variable" title="pacman.dcop.objects.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">pacman.dcop.objects.Variable</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#pacman.dcop.objects.Variable" title="pacman.dcop.objects.Variable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Variable</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pacman.dcop.objects.VariableWithCostFunc.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/dcop/objects.html#VariableWithCostFunc.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.dcop.objects.VariableWithCostFunc.__init__" title="Permalink to this definition"></a></dt>
@@ -766,10 +767,10 @@ tuple of string.</p>
 
 </section>
 <section id="pacman-dcop-relations-module">
-<h2>pacman.dcop.relations module<a class="headerlink" href="#pacman-dcop-relations-module" title="Permalink to this headline"></a></h2>
+<h2>pacman.dcop.relations module<a class="headerlink" href="#pacman-dcop-relations-module" title="Permalink to this heading"></a></h2>
 </section>
 <section id="module-pacman.dcop">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pacman.dcop" title="Permalink to this headline"></a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pacman.dcop" title="Permalink to this heading"></a></h2>
 </section>
 </section>
 

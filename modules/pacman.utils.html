@@ -14,6 +14,7 @@
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -88,15 +89,15 @@
            <div itemprop="articleBody">
              
   <section id="pacman-utils-package">
-<h1>pacman.utils package<a class="headerlink" href="#pacman-utils-package" title="Permalink to this headline"></a></h1>
+<h1>pacman.utils package<a class="headerlink" href="#pacman-utils-package" title="Permalink to this heading"></a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
 <section id="pacman-utils-graphs-module">
-<h2>pacman.utils.graphs module<a class="headerlink" href="#pacman-utils-graphs-module" title="Permalink to this headline"></a></h2>
+<h2>pacman.utils.graphs module<a class="headerlink" href="#pacman-utils-graphs-module" title="Permalink to this heading"></a></h2>
 </section>
 <section id="module-pacman.utils.simple_repr">
-<span id="pacman-utils-simple-repr-module"></span><h2>pacman.utils.simple_repr module<a class="headerlink" href="#module-pacman.utils.simple_repr" title="Permalink to this headline"></a></h2>
+<span id="pacman-utils-simple-repr-module"></span><h2>pacman.utils.simple_repr module<a class="headerlink" href="#module-pacman.utils.simple_repr" title="Permalink to this heading"></a></h2>
 <p>Simple Representation module.</p>
 <p>This module provide utility methods and mixin to convert python objects
 to and from a so called ‘simple representation’.</p>
@@ -177,11 +178,11 @@ these types) or implement _simple_repr().</p>
 
 </section>
 <section id="module-pacman.utils.expressionfunction">
-<span id="pacman-utils-expressionfunction-module"></span><h2>pacman.utils.expressionfunction module<a class="headerlink" href="#module-pacman.utils.expressionfunction" title="Permalink to this headline"></a></h2>
+<span id="pacman-utils-expressionfunction-module"></span><h2>pacman.utils.expressionfunction module<a class="headerlink" href="#module-pacman.utils.expressionfunction" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pacman.utils.expressionfunction.ExpressionFunction">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.utils.expressionfunction.</span></span><span class="sig-name descname"><span class="pre">ExpressionFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">fixed_vars</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/utils/expressionfunction.html#ExpressionFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.utils.expressionfunction.ExpressionFunction" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Callable</span></code>, <a class="reference internal" href="#pacman.utils.simple_repr.SimpleRepr" title="pacman.utils.simple_repr.SimpleRepr"><code class="xref py py-class docutils literal notranslate"><span class="pre">pacman.utils.simple_repr.SimpleRepr</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code>, <a class="reference internal" href="#pacman.utils.simple_repr.SimpleRepr" title="pacman.utils.simple_repr.SimpleRepr"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleRepr</span></code></a></p>
 <p>Callable object representing a function from a python string.
 expression.</p>
 <p>Example:
@@ -239,7 +240,7 @@ a <cite>ValueError</cite> is raised.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pacman.utils.expressionfunction.VarCounterVisitor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pacman.utils.expressionfunction.</span></span><span class="sig-name descname"><span class="pre">VarCounterVisitor</span></span><a class="reference internal" href="../_modules/pacman/utils/expressionfunction.html#VarCounterVisitor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.utils.expressionfunction.VarCounterVisitor" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ast.NodeVisitor</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NodeVisitor</span></code></p>
 <p>A simple visitor to count variables in an AST tree.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pacman.utils.expressionfunction.VarCounterVisitor.__init__">
@@ -266,7 +267,7 @@ a <cite>ValueError</cite> is raised.</p>
 
 </section>
 <section id="module-pacman.utils.various">
-<span id="pacman-utils-various-module"></span><h2>pacman.utils.various module<a class="headerlink" href="#module-pacman.utils.various" title="Permalink to this headline"></a></h2>
+<span id="pacman-utils-various-module"></span><h2>pacman.utils.various module<a class="headerlink" href="#module-pacman.utils.various" title="Permalink to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="pacman.utils.various.func_args">
 <span class="sig-prename descclassname"><span class="pre">pacman.utils.various.</span></span><span class="sig-name descname"><span class="pre">func_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pacman/utils/various.html#func_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pacman.utils.various.func_args" title="Permalink to this definition"></a></dt>
@@ -285,7 +286,7 @@ you only use keywords arguments.</p>
 
 </section>
 <section id="module-pacman.utils">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pacman.utils" title="Permalink to this headline"></a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pacman.utils" title="Permalink to this heading"></a></h2>
 </section>
 </section>
 
