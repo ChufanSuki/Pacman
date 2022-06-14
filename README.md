@@ -4,8 +4,20 @@
 ![CI](https://github.com/ChufanSuki/Pacman/actions/workflows/ci.yml/badge.svg)
 ![build](https://github.com/ChufanSuki/Pacman/actions/workflows/build.yml/badge.svg)
 ![pre-commit](https://github.com/ChufanSuki/Pacman/actions/workflows/pre-commit.yml/badge.svg)
-This project is only for education purpose and not for production.
 
+This project is only for education purpose and not for production.
+See https://chufansuki.github.io/Pacman/ for doc.
+
+### Related Repo
+- https://github.com/ChufanSuki/DCOP for documenting dcop algos
+- https://github.com/ChufanSuki/DCOPGenerator for generating xml problem
+
+### Reference:
+- https://github.com/andry91/Max_Sum_Python
+- https://github.com/houhashv/DCOP
+- https://github.com/chiragvartak/dpop
+
+### Example
 
 `python dcop_cli.py solve --algo dpop graph_coloring.yaml`
 
